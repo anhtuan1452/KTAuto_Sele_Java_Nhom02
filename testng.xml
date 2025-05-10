@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Oce Test Suite">
+    <test name="Testcases.Railway">
+        <classes>
+            <class name="Testcases.Railway.LoginTests"/>
+            <class name="Testcases.Railway.HomeTests"/>
+            <class name="Testcases.Railway.FogetPassWordTest"/>
+            <class name="Testcases.Railway.FogetPassWordTest"/>
+            <class name="Testcases.Railway.TimeTableTests"/>
+            <class name="Testcases.Railway.RegisterTests"/>
+            <class name="Testcases.Railway.BookTicketsTests"/>
+            <class name="Testcases.Railway.ChangePasswordTests"/>
+        </classes>
+    </test>
+<!--    <test name="Testcases.Railway.ChangePasswordTests">-->
+<!--        <classes>-->
+<!--            <class name="Testcases.Railway.ChangePasswordTests"/>-->
+<!--        </classes>-->
+<!--    </test>-->
+<!--    <test name="Testcases.Railway.FogetPassWordTest">-->
+<!--        <classes>-->
+<!--            <class name="Testcases.Railway.FogetPassWordTest"/>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="Testcases.Railway.TimeTableTests">-->
+<!--        <classes>-->
+<!--            <class name="Testcases.Railway.TimeTableTests"/>-->
+<!--        </classes>-->
+<!--    </test>-->
+<!--    <test name="Testcases.Railway.RegisterTests">-->
+<!--        <classes>-->
+<!--            <class name="Testcases.Railway.RegisterTests"/>-->
+<!--        </classes>-->
+<!--    </test>-->
+<!--    <test name="Testcases.Railway.BookTicketsTests">-->
+<!--        <classes>-->
+<!--            <class name="Testcases.Railway.BookTicketsTests"/>-->
+<!--        </classes>-->
+<!--    </test>-->
+</suite>
