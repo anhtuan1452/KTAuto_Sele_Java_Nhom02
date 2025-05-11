@@ -28,9 +28,9 @@ public class ChangePasswordTests {
     public void setup() {
         driver = DriverFactory.getDriver();
         homePage = new HomePage(driver);
-
-        registerPage = new RegisterPage(driver);
+        homePage.open();
         homePage.clickMenuItem("Register");
+        registerPage = new RegisterPage(driver);
         generatedEmail= registerPage.generateGmail();
         registerPage.registerAccount(generatedEmail, Constant.PASSWORD,Constant.PASSWORD,"11111111");
         registerPage.clickMenuItem("Login");
@@ -70,11 +70,17 @@ public class ChangePasswordTests {
         }
     }
 
-
     @AfterMethod
     public void teardown() {
         if (driver != null) {
             driver.quit();
+        }
+    }
+    @AfterClass
+    public void tearDownClass() {
+        // Đóng Extent Reports
+        if (extent != null) {
+            extent.flush();
         }
     }
 }
