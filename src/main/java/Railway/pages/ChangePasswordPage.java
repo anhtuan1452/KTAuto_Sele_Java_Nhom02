@@ -12,7 +12,7 @@ public class ChangePasswordPage extends GenetralPage {
     private final By changePasswordButton = By.xpath("//*[@id='ChangePW']/fieldset/p/input");
     private final By sMessage = By.xpath("//*[@id=\"ChangePW\"]/fieldset/p[1]");
     private final By errorMessage = By.xpath("//div[@id='ChangePW']/fieldset/p[@class='message error']");
-
+    private final By pageTitle = By.xpath("//h1[contains(text(), 'Change password')]");
     // Constructor
     public ChangePasswordPage(WebDriver driver) {
         super(driver);
@@ -43,7 +43,7 @@ public class ChangePasswordPage extends GenetralPage {
 
     // Methods
     public boolean isChangePasswordPageDisplayed() {
-        return driver.getCurrentUrl().contains("ChangePassword");
+        return getElement(pageTitle).isDisplayed();
     }
     public void changePassword(String currentPw, String newPw, String confirmPw) {
         CurrentPasswordField().sendKeys(currentPw);

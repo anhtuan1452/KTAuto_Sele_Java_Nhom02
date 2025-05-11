@@ -178,9 +178,6 @@ public class BookTicketsTests {
             driver.quit();
         }
     }
-    @AfterClass
-    public void tearDownClass() {
-        extent.flush();
-    }
+
 
 }

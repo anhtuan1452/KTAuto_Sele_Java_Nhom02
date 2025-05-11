@@ -1,5 +1,6 @@
 package Railway.pages;
 
+import Railway.dataObjects.Enum.Enum;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -37,20 +38,12 @@ public class TimeTablePage extends GenetralPage {
         return true;
     }
     private int getColumnIndex(String fieldName) {
-        String lowerField = fieldName.toLowerCase();
-
-        if (lowerField.equals("depart station")) {
-            return 1;
-        } else if (lowerField.equals("arrive station")) {
-            return 2;
-        } else if (lowerField.equals("seat type")) {
-            return 3;
-        } else if (lowerField.equals("expired date")) {
-            return 4;
-        } else if (lowerField.equals("amount")) {
-            return 7;
+        try{
+            Railway.dataObjects.Enum.Enum.TableSuccessfulBooking field = Enum.TableSuccessfulBooking.fromLabel(fieldName);
+            return field.getColumnIndex();
+        } catch (IllegalArgumentException e){
+            throw new IllegalArgumentException("Invalid field name: "+ fieldName);
         }
-        throw new IllegalArgumentException("Invalid field name: " + fieldName);
     }
     public Boolean checkInfor(String fieldName, String check){
         int index = getColumnIndex(fieldName);

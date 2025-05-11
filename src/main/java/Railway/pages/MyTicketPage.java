@@ -9,15 +9,16 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 public class MyTicketPage extends GenetralPage {
     // Locators
     private final By ticketTableRows = By.xpath("//table[@class='MyTable']/tbody/tr[contains(@class,'Row')]");
-
+    private final By pageTitle = By.xpath("//h1[contains(text(), 'Manage ticket')]");
     // Constructor
     public MyTicketPage(WebDriver driver) {
         super(driver);
     }
 
     // Methods
+
     public boolean isMyTicketPageDisplayed() {
-        return driver.getCurrentUrl().contains("ManageTicket");
+        return getElement(pageTitle).isDisplayed();
     }
     public boolean cancelTicket(String ticketId) {
             String cancelButtonXPath = String.format(".//input[@type='button' and @value='Cancel' and contains(@onclick, 'DeleteTicket(%s)')]", ticketId);
