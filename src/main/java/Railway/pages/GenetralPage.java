@@ -1,6 +1,5 @@
 package Railway.pages;
 
-import Railway.utils.DriverFactory;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -9,7 +8,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
-import java.util.List;
 import java.util.Random;
 
 public class GenetralPage {
@@ -19,6 +17,10 @@ public class GenetralPage {
     public final By tabLogout = By.xpath("//div[@id='menu']//a[@href=/Account/Logout]");
     public final By lblWelcomeMessage = By.xpath("//div[@class='account']/strong");
     public final By h1 = By.xpath("//*[@id=\"content\"]/h1");
+
+    public final By headerMyticket = By.xpath("//span[contains(text(),'My ticket')]");
+    public final By headerChangePassword = By.xpath("//span[contains(text(),'Change password')]");
+    public final By headerLogout = By.xpath("//span[contains(text(),'Log out')]");
 
     public String un="tuan41@gmail.com";
     public String pw="tuan41tuan41";
@@ -142,4 +144,20 @@ public class GenetralPage {
         }
         return screenshotPath;
     }
+
+
+    public Boolean isMyTicketTabDisplayed() {
+        return getElement(headerMyticket).isDisplayed();
+    }
+
+    public Boolean isLogOutTabDisplayed() {
+        return getElement(headerLogout).isDisplayed();
+    }
+
+    public Boolean isChangePasswordTabDisplayed() {
+        return getElement(headerChangePassword).isDisplayed();
+    }
+
+
+
 }
