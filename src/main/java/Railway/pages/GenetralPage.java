@@ -91,12 +91,6 @@ public class GenetralPage {
         }
     }
 
-    public String getTextElement(By xpath){
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(xpath)).getText();
-    }
-    public String getTextElementBXP(String xpath){
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath))).getText();
-    }
     public WebElement getElement(By key, boolean requireClickable) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         try {
@@ -171,6 +165,15 @@ public class GenetralPage {
         }else{
             test.fail("\"Change password\" tabs are not displayed.");
             test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "TC06"));
+        }
+    }
+
+    public void checkMsgWelcome(ExtentTest test, HomePage homePage, String expectedMsg, String actualMsg) {
+        if(expectedMsg.equals(actualMsg)){
+            test.log(Status.PASS, " Welcome user message is displayed.");
+        }else{
+            test.fail(" Welcome user message is not displayed.");
+            test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "TC01"));
         }
     }
 

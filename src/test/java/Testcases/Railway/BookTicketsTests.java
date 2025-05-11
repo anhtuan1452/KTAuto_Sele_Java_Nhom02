@@ -46,18 +46,14 @@ public class BookTicketsTests {
 
     @Test(description = "TC04 - Login page displays when un-logged User clicks on \"Book ticket\" tab")
     public void TC04() throws NoSuchMethodException {
-                // Tạo test case trong Extent Reports với mô tả từ @Test
         test = extent.createTest("TC04", this.getClass().getDeclaredMethod("TC04").getAnnotation(Test.class).description());
-
         try {
             test.log(Status.INFO, "Navigate to QA Railway Website");
             homePage.open();
+
             test.log(Status.INFO, "Click on \"Book ticket\" tab");
             homePage.clickMenuItem("Book ticket");
-            String actualMsg = loginPage.isLoginPageDisplayed() ? "Login page" : "Not on Login page";
-            String expectedMsg = "Login page";
-            Assert.assertEquals(actualMsg, expectedMsg, "Login page not displayed");
-            test.log(Status.PASS, "Login page displays when un-logged User clicks on \"Book ticket\" tab");
+            loginPage.checkLoginPageDisplayed(test, homePage);
 
         } catch (Exception e) {
             test.log(Status.FAIL, "Test thất bại: " + e.getMessage());
@@ -176,6 +172,13 @@ public class BookTicketsTests {
     public void tearDown() {
         if (driver != null) {
             driver.quit();
+        }
+    }
+    @AfterClass
+    public void tearDownClass() {
+        // Đóng Extent Reports
+        if (extent != null) {
+            extent.flush();
         }
     }
 

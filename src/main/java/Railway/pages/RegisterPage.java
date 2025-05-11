@@ -43,6 +43,14 @@ public class RegisterPage extends GenetralPage {
         super(driver);
     }
 
+    public void checkMsgCorrect(ExtentTest test, HomePage homePage, String expectedMsg, String actualMsg) {
+        if(expectedMsg.equals(actualMsg)) {
+            test.log(Status.PASS, "New account is created and message \"Thank you for registering your account\" appears.");
+        } else {
+            test.fail("The success message is not as expected.");
+            test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "RegisterPage"));
+        }
+    }
     public String getCompeleteMessenger(){
         if(Messeger()== null){return " ";}
         return Messeger().getText();

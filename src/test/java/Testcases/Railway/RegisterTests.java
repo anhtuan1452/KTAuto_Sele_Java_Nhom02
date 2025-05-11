@@ -57,18 +57,9 @@ public class RegisterTests {
             registerPage.registerAccount(email,homePage.pw,homePage.pw,"11111111");
 
             test.info("Click on \"Send Instructions\" button");
-
             String actualMsg = "Thank you for registering your account";
             String expectedMsg= registerPage.getCompeleteMessenger();
-
-            boolean check = actualMsg.equals(expectedMsg);
-            if(check){
-                test.log(Status.PASS, "New account is created and message \"Thank you for registering your account\" appears.");
-            }else{
-                test.fail("The success message is not as expected.");
-                test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "TC07"));
-            }
-            Assert.assertEquals(actualMsg, expectedMsg);
+            registerPage.checkMsgCorrect(test,homePage,actualMsg,expectedMsg);
 
         }
         catch (Exception e) {

@@ -1,5 +1,6 @@
 package Testcases.Railway;
 
+import Railway.Common.Constant.Constant;
 import Railway.pages.HomePage;
 import Railway.pages.LoginPage;
 import Railway.utils.DriverFactory;
@@ -24,8 +25,7 @@ public class LoginTests {
     @BeforeMethod
     public void setUp() {
         driver = DriverFactory.getDriver();
-        homePage = new HomePage(driver);
-        homePage.open();
+
     }
 
     @Test(description = "TC01 - User can login to Railway with valid account and password")
@@ -33,21 +33,21 @@ public class LoginTests {
         test = extent.createTest("TC01", this.getClass().getDeclaredMethod("TC01").getAnnotation(Test.class).description());
         try {
             test.log(Status.INFO, "Navigate to QA Railway Website");
-            LoginPage loginPage = new LoginPage(driver);
+            homePage = new HomePage(driver);
+            homePage.open();
+
             test.log(Status.INFO, "Click on \"Login\" tab");
-            loginPage.clickMenuItem("Login");
+            homePage.clickMenuItem("Login");
+            LoginPage loginPage = new LoginPage(driver);
+
             test.log(Status.INFO, "Login with valid account and password");
-            loginPage.login(loginPage.un, loginPage.pw);
+            loginPage.login(Constant.USERNAME, Constant.PASSWORD);
+
             test.info("Click on \"Login\" button");
+
             String actualMsg = loginPage.getWelcomeMessage();
-            String expectedMsg = "Welcome, " + loginPage.un;
-            boolean check = actualMsg.equals(expectedMsg);
-            if(check){
-                test.log(Status.PASS, "User is logged into Railway. Welcome user message is displayed.");
-            }else{
-                test.fail("User is logged into Railway. Welcome user message isn't displayed.");
-                test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "TC01"));
-            }
+            String expectedMsg = "Welcome " + Constant.USERNAME;
+            homePage.checkMsgWelcome(test, homePage, actualMsg, expectedMsg);
             Assert.assertEquals(actualMsg, expectedMsg);
 
         } catch (Exception e) {
@@ -62,20 +62,21 @@ public class LoginTests {
         test = extent.createTest("TC02", this.getClass().getDeclaredMethod("TC02").getAnnotation(Test.class).description());
         try {
             test.log(Status.INFO, "Navigate to QA Railway Website");
-            LoginPage loginPage = new LoginPage(driver);
+            homePage = new HomePage(driver);
+            homePage.open();
+
             test.log(Status.INFO, "Click on \"Login\" tab");
-            loginPage.clickMenuItem("Login");
+            homePage.clickMenuItem("Login");
+            LoginPage loginPage = new LoginPage(driver);
+
             test.log(Status.INFO, "Login with blank \"Username\" textbox");
-            loginPage.login("", loginPage.pw);
+            loginPage.login("", Constant.PASSWORD);
+
+            test.info("Click on \"Login\" button");
             String actualMsg = "There was a problem with your login and/or errors exist in your form.";
             String expectedMsg = loginPage.getErrorMessage();
-            boolean check = actualMsg.equals(expectedMsg);
-            if(check){
-                test.log(Status.PASS, "Error message \"There was a problem with your login and/or errors exist in your form.\" is displayed");
-            }else{
-                test.fail("Error message \"There was a problem with your login and/or errors exist in your form.\" isn't displayed");
-                test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "TC02"));
-            }
+            loginPage.checkMsgLoginFailed(test, homePage, actualMsg, expectedMsg);
+
             Assert.assertEquals(actualMsg, expectedMsg);
         } catch (Exception e) {
             System.out.println("Exception caught: " + e.getMessage());
@@ -89,20 +90,21 @@ public class LoginTests {
         test= extent.createTest("TC03", this.getClass().getDeclaredMethod("TC03").getAnnotation(Test.class).description());
         try {
             test.log(Status.INFO, "Navigate to QA Railway Website");
-            LoginPage loginPage = new LoginPage(driver);
+            homePage = new HomePage(driver);
+            homePage.open();
+
             test.log(Status.INFO, "Click on \"Login\" tab");
-            loginPage.clickMenuItem("Login");
+            homePage.clickMenuItem("Login");
+            LoginPage loginPage = new LoginPage(driver);
+
             test.log(Status.INFO, "Login with invalid password");
-            loginPage.login(loginPage.un, "12345678");
+            loginPage.login(Constant.USERNAME, "12345678");
+
+            test.info("Click on \"Login\" button");
             String actualMsg = "There was a problem with your login and/or errors exist in your form.";
             String expectedMsg = loginPage.getErrorMessage();
-            boolean check = actualMsg.equals(expectedMsg);
-            if(check){
-                test.log(Status.PASS, "Error message \"There was a problem with your login and/or errors exist in your form.\" is displayed");
-            }else{
-                test.fail("Error message \"There was a problem with your login and/or errors exist in your form.\" isn't displayed");
-                test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "TC03"));
-            }
+            loginPage.checkMsgLoginFailed(test, homePage, actualMsg, expectedMsg);
+
             Assert.assertEquals(actualMsg, expectedMsg);
         } catch (Exception e) {
             System.out.println("Exception caught: " + e.getMessage());
@@ -111,20 +113,35 @@ public class LoginTests {
             throw new RuntimeException(e);
         }
     }
-    @Test
-    public void TC05() {
-        System.out.println("TC05 - Người dùng có thể đăng nhập vào Railway với tài khoản và mật khẩu k hợp lệ 3 lần");
-        String expectedWarning = "You have used 4 out of 5 login attempts. After all 5 have been used, you will be unable to login for 15 minutes.";
-        String actualWarning = "";
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.clickMenuItem("Login");
-        for (int i = 0; i < 3; i++) {
-            loginPage.login(loginPage.un, "tddrtyj");
+    @Test(description = "TC05 - System shows message when user enters wrong password several times")
+    public void TC05() throws NoSuchMethodException {
+        test= extent.createTest("TC05", this.getClass().getDeclaredMethod("TC05").getAnnotation(Test.class).description());
+        try {
+            test.log(Status.INFO, "Navigate to QA Railway Website");
+            homePage = new HomePage(driver);
+            homePage.open();
+
+            test.log(Status.INFO, "Click on \"Login\" tab");
+            homePage.clickMenuItem("Login");
+            LoginPage loginPage = new LoginPage(driver);
+
+            test.log(Status.INFO, "Login with invalid password");
+            for (int i = 0; i < 5; i++) {
+                loginPage.login(Constant.USERNAME, "12345678");
+            }
+
+            test.info("Click on \"Login\" button");
+            String actualMsg = "You have used 5 out of 5 login attempts. After all 5 have been used, you will be unable to login for 15 minutes.";
+            String expectedMsg = loginPage.getErrorMessage();
+            Assert.assertEquals(actualMsg, expectedMsg);
+        } catch (Exception e) {
+            System.out.println("Exception caught: " + e.getMessage());
+            test.fail("Test failed: User can login with invalid password. Error: " + e.getMessage());
+            test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "TC05"));
         }
 
-        actualWarning = loginPage.getErrorMessage();
-        Assert.assertEquals(actualWarning, expectedWarning);
     }
+
     @Test(description = "User can't login with an account hasn't been activated")
     public void TC08() throws NoSuchMethodException {
 

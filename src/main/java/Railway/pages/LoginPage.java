@@ -1,5 +1,7 @@
 package Railway.pages;
 
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -41,6 +43,33 @@ public class LoginPage extends GenetralPage {
     //Method
     public boolean isLoginPageDisplayed() {
         return getElement(pageTitle).isDisplayed();
+    }
+
+    public void checkLoginPageDisplayed(ExtentTest test, HomePage homePage) {
+        if (getElement(pageTitle).isDisplayed()) {
+            test.log(Status.PASS, "Login page displays instead of Book ticket page");
+        } else {
+            test.fail("Login page not displays instead of Book ticket page");
+            test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "MyTicketPage"));
+        }
+    }
+
+    public void checkMsgLoginFailed(ExtentTest test, HomePage homePage, String expectedMsg, String actualMsg) {
+        if (expectedMsg.equals(actualMsg)) {
+            test.log(Status.PASS, "Error message \"There was a problem with your login and/or errors exist in your form.\" is displayed");
+        } else {
+            test.fail("Error message \"There was a problem with your login and/or errors not exist in your form.\" is displayed");
+            test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "LoginPage"));
+        }
+    }
+
+    public void checkMsgWrongPass(ExtentTest test, HomePage homePage, String expectedMsg, String actualMsg) {
+        if (expectedMsg.equals(actualMsg)) {
+            test.log(Status.PASS, "Message \"You have used 4 out of 5 login attempts. After all 5 have been used, you will be unable to login for 15 minutes.\" appears.");
+        } else {
+            test.fail("User can't login and message \"You have used 4 out of 5 login attempts. After all 5 have been used, you will be unable to login for 15 minutes.\" appears.");
+            test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "LoginPage"));
+        }
     }
 
     public void login(String username, String password) {
