@@ -71,6 +71,24 @@ public class Enum {
         }
     }
 
+    public enum RegistrationField {
+        EMAIL("Email", 1),
+        PASSWORD("Password", 2),
+        CONFIRM_PASSWORD("Confirm Password", 3),
+        PID("PID", 4);
+
+        private final String label;
+        private final int index;
+
+        RegistrationField(String label, int index) {
+            this.label = label;
+            this.index = index;
+        }
+
+        public String getLabel() { return label; }
+        public int getIndex() { return index; }
+    }
+
 
 
 }
