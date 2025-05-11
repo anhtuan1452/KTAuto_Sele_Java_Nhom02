@@ -1,5 +1,6 @@
 package Railway.pages;
 
+import Railway.Common.Constant.Constant;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -41,6 +42,9 @@ public class ChangePasswordPage extends GenetralPage {
     }
 
     // Methods
+    public boolean isChangePasswordPageDisplayed() {
+        return driver.getCurrentUrl().contains("ChangePassword");
+    }
     public void changePassword(String currentPw, String newPw, String confirmPw) {
         CurrentPasswordField().sendKeys(currentPw);
         NewPasswordField().sendKeys(newPw);

@@ -1,5 +1,6 @@
 package Railway.pages;
 
+import Railway.Common.Constant.Constant;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -7,7 +8,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class MyTicketPage extends GenetralPage {
     // Locators
-    private final By pageHeader = By.xpath("//h1[contains(text(),'Manage ticket')]");
     private final By ticketTableRows = By.xpath("//table[@class='MyTable']/tbody/tr[contains(@class,'Row')]");
 
     // Constructor
@@ -16,9 +16,10 @@ public class MyTicketPage extends GenetralPage {
     }
 
     // Methods
-
+    public boolean isMyTicketPageDisplayed() {
+        return driver.getCurrentUrl().contains("ManageTicket");
+    }
     public boolean cancelTicket(String ticketId) {
-
             String cancelButtonXPath = String.format(".//input[@type='button' and @value='Cancel' and contains(@onclick, 'DeleteTicket(%s)')]", ticketId);
             WebElement cancelButton = getElement(By.xpath(cancelButtonXPath));
             scrollElement(cancelButton);
