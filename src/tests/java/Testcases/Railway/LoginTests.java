@@ -150,11 +150,5 @@ public class LoginTests {
             driver.quit();
         }
     }
-    @AfterClass
-    public void tearDownClass() {
-        // Đóng Extent Reports
-        if (extent != null) {
-            extent.flush();
-        }
-    }
+
 }

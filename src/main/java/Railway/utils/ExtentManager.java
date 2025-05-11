@@ -16,7 +16,7 @@ public class ExtentManager {
 
     private static ExtentReports createInstance() {
         // Đường dẫn lưu báo cáo
-        String reportPath = System.getProperty("user.dir") + "/reports/ExtentReport.html";
+        String reportPath = "target/ExtentReports/ExtentReport_" + System.currentTimeMillis() + ".html";
         ExtentSparkReporter spark = new ExtentSparkReporter(reportPath);
         // Cấu hình báo cáo
         spark.config().setDocumentTitle("Báo Cáo Kiểm Thử Selenium");
@@ -33,5 +33,8 @@ public class ExtentManager {
         extent.setSystemInfo("Người kiểm thử", "Nhóm 4");
 
         return extent;
+    }
+    public static void reset() {
+        extent = null;
     }
 }
