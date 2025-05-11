@@ -3,6 +3,10 @@ package Railway.pages;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 
 public class RegisterPage extends GenetralPage {
@@ -11,10 +15,10 @@ public class RegisterPage extends GenetralPage {
     private final By passwordField = By.id("password");
     private final By confirmpasswordField = By.id("confirmPassword");
     private final By pidField = By.id("pid");
-    private final By btnResgiter = By.xpath("//*[@id=\"RegisterForm\"]/fieldset/p/input");
-    private final By messageBlankPassword = By.xpath("//*[@id=\"RegisterForm\"]/fieldset/ol/li[2]/label[2]");
+    private final By btnResgiter = By.xpath("//form[@id=\"RegisterForm\"]/fieldset/p/input");
+    private final By messageBlankPassword = By.xpath("//form[@id=\"RegisterForm\"]/fieldset/ol/li[2]/label[2]");
     private final By formErrorMessage = By.xpath("//div[@id=\"content\"]/p[2]");
-    private final By messageBlankPid = By.xpath("/html/body/div[1]/div[2]/form/fieldset/ol/li[4]/label[2]");
+    private final By messageBlankPid = By.xpath("//form[@id=\"RegisterForm\"]/fieldset/ol/li[4]/label[2]");
 
 
     //Element
@@ -64,19 +68,16 @@ public class RegisterPage extends GenetralPage {
         PasswordField().sendKeys(pw);
         ConfirmpasswordField().sendKeys(rpw);
         PidField().sendKeys(pid);
-        clickRegister();
-        sleepSafe(600);
-    }
-    public String RegisterAccountSaveGmail() {
-        String a = generateGmail();
-        clickRegister();
-        return a;
+        clickBtnRegister();
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(formErrorMessage));
     }
 
-    public void clickRegister(){
-        WebElement registerButton = getElement(By.xpath("//*[@id='RegisterForm']/fieldset/p/input"));
-        scrollElement(registerButton);
-        registerButton.click();
+
+    public void clickBtnRegister(){
+        scrollElement(BtnResgiter());
+        BtnResgiter().click();
     }
     // Kiểm tra thông báo lỗi trên form
     public void checkFormErrorMessageDisplayed(String expectedMessage, HomePage homePage, ExtentTest test) {
@@ -100,6 +101,7 @@ public class RegisterPage extends GenetralPage {
         System.out.println("PID Error message text: " + errorMessage);
         if (errorMessage.contains(expectedMessage) &&
                 label.getRect().getX() > pidInput.getRect().getX()) {
+            test.log(Status.PASS, "Error message \"Invalid PID length\" appears next to PID field.");
         } else{
             test.fail("Error message \"Invalid PID length\" does not appear next to PID field.");
             test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "TC11"));
@@ -114,17 +116,11 @@ public class RegisterPage extends GenetralPage {
             System.out.println("Password Error message text: " + errorMessage);
             if (errorMessage.contains(expectedMessage) &&
                     label.getRect().getX() > passwordInput.getRect().getX()) {
-
+                test.log(Status.PASS, "Error message \"Invalid password length\" appears next to password field.");
             } else {
                 test.fail("Error message \"Invalid password length\" does not appear next to password field.");
                 test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "TC11"));
             }
     }
-
-
-
-
-
-
 
 }

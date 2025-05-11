@@ -75,34 +75,28 @@ public class RegisterTests {
     public void TC10() throws NoSuchMethodException {
         test = extent.createTest("TC10", this.getClass().getDeclaredMethod("TC10").getAnnotation(Test.class).description());
         try {
-            test.log(Status.INFO, "Navigate to QA Railway Website and click 'Register' tab at: " + java.time.LocalDateTime.now());
+            // Bước 1: Navigate to QA Railway Website
+            test.log(Status.INFO, "Navigate to QA Railway Website at: " + java.time.LocalDateTime.now());
+            homePage.open();
+
+            // Bước 2: Click on "Register" tab
+            test.log(Status.INFO, "Click on \"Register\" tab at: " + java.time.LocalDateTime.now());
+            homePage.clickMenuItem("Register");
+
+            // Bước 3: Enter valid information except Confirm password not matching Password
+            test.log(Status.INFO, "Enter valid information except Confirm password not matching Password at: " + java.time.LocalDateTime.now());
             String email = homePage.generateGmail();
             User user = new User(email, "123456789", "987654321", "11111111");
-            test.log(Status.INFO, "Enter valid information except 'Confirm password' not matching 'Password'");
-            test.log(Status.INFO, "Email: " + user.getEmail());
-            test.log(Status.INFO, "Password: " + user.getPassword());
-            test.log(Status.INFO, "Confirm Password: " + user.getConfirmPassword());
-            test.log(Status.INFO, "PID: " + user.getPid());
             registerPage.registerAccount(user.getEmail(), user.getPassword(), user.getConfirmPassword(), user.getPid());
-            test.log(Status.INFO, "Click on 'Register' button at: " + java.time.LocalDateTime.now());
 
-            String expectedMsg = "There're errors in the form. Please correct the errors and try again.";
-            String actualMsg = registerPage.getMessenger();
-            test.log(Status.INFO, "Expected message: " + expectedMsg);
-            test.log(Status.INFO, "Actual message: " + actualMsg);
-            boolean msgMatch = actualMsg.equals(expectedMsg);
-            test.log(Status.INFO, "Message match result: " + msgMatch);
-            Assert.assertEquals(actualMsg, expectedMsg, "Error message should match expected message");
+            // Bước 4: Click on "Register" button
+            test.log(Status.INFO, "Click on \"Register\" button at: " + java.time.LocalDateTime.now());
+            registerPage.clickBtnRegister();
 
-            // Kiểm tra lỗi cụ thể cho Confirm Password
-            String confirmPasswordErrorXPath = String.format("//input[@id='%s']/following-sibling::label[contains(@class, 'validation-error')]", "confirmPassword");
-            test.log(Status.INFO, "Checking Confirm Password error message...");
-            WebElement confirmPasswordError = driver.findElement(By.xpath(confirmPasswordErrorXPath));
-            boolean confirmPasswordErrorDisplayed = confirmPasswordError.isDisplayed();
-            Assert.assertTrue(confirmPasswordErrorDisplayed, "Confirm Password error message not displayed");
-            test.log(Status.INFO, "Confirm Password error message displayed: " + confirmPasswordErrorDisplayed);
+            // Kiểm tra thông báo trên form
+            String expectedFormMsg = "There're errors in the form. Please correct the errors and try again.";
+            registerPage.checkFormErrorMessageDisplayed(expectedFormMsg, homePage, test);
 
-            test.log(Status.PASS, "There're errors in the form. Please correct the errors and try again.. Test completed at: " + java.time.LocalDateTime.now());
         } catch (Exception e) {
             test.log(Status.FAIL, "Test failed: " + e.getMessage() + " at " + java.time.LocalDateTime.now());
             test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "TC10"));
@@ -129,14 +123,14 @@ public class RegisterTests {
 
             // Bước 4: Click on "Register" button
             test.log(Status.INFO, "Click on \"Register\" button at: " + java.time.LocalDateTime.now());
-            registerPage.clickRegister();
+            registerPage.clickBtnRegister();
 
             // Kiểm tra thông báo trên form
             String expectedFormMsg = "There're errors in the form. Please correct the errors and try again.";
-            registerPage.checkFormErrorMessageDisplayed(expectedFormMsg, homePage,test);
             String expectedPasswordMsg = "Invalid password length";
-            registerPage.checkMessageBlankPasswordDisplayed(expectedPasswordMsg, homePage, test);
             String expectedPIDMsg = "Invalid ID length";
+            registerPage.checkFormErrorMessageDisplayed(expectedFormMsg, homePage,test);
+            registerPage.checkMessageBlankPasswordDisplayed(expectedPasswordMsg, homePage, test);
             registerPage.checkMessageBlankPidDisplayed(expectedPIDMsg,homePage, test);
 
         } catch (Exception e) {
