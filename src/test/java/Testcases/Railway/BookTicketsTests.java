@@ -63,15 +63,12 @@ public class BookTicketsTests {
         }
     }
 
-    // Phương thức chụp ảnh màn hình (tùy chọn)
-
     @Test(description = "TC14 - User can book 1 ticket at a time")
     public void TC14() throws NoSuchMethodException {
         test = extent.createTest("TC14", this.getClass().getDeclaredMethod("TC14").getAnnotation(Test.class).description());
         try {
             test.log(Status.INFO, "Navigate to QA Railway Website");
             homePage.open();
-//            test.log(Status.INFO, "Nhấp vào menu Login");
             homePage.clickMenuItem("Login");
             test.log(Status.INFO, "Login with a valid account");
             User user = new User();
@@ -92,11 +89,9 @@ public class BookTicketsTests {
         String seatType = "Soft bed with air conditioner";
         String ticketAmount = "1";
         try {
-            test.log(
-                    Status.INFO, "Book ticket with departure date: " + formattedDate + ", departure station: "+ departStation +
-                            ", arrival station: " + arriveStation + ", seat type: " + seatType + ", ticket amount: " + ticketAmount
-            );
-            bookTicketsPage.bookTicket(formattedDate, departStation, arriveStation, seatType, ticketAmount);
+            test.log(Status.INFO, "Book ticket with departure date: " + formattedDate + ", departure station: "+ departStation +
+                            ", arrival station: " + arriveStation + ", seat type: " + seatType + ", ticket amount: " + ticketAmount);
+            bookTicketsPage.bookTicket(formattedDate, departStation, arriveStation, seatType, ticketAmount, test, homePage);
 
         } catch (Exception e) {
             test.log(Status.FAIL, "Booking cancel: " + e.getMessage());
@@ -148,7 +143,7 @@ public class BookTicketsTests {
         String seatType = "Hard seat";
         String ticketAmount = "2";
         try{
-            bookTicketsPage.bookTicket(formattedDate, departStation, arriveStation, seatType, ticketAmount);
+            bookTicketsPage.bookTicket(formattedDate, departStation, arriveStation, seatType, ticketAmount, test, homePage);
         } catch (Exception e) {
             test.log(Status.FAIL, "Booking cancel: " + e.getMessage());
             test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "TC16"));

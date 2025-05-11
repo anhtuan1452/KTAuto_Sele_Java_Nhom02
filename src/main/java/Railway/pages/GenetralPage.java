@@ -32,16 +32,13 @@ public class GenetralPage {
 
     //Elements
     protected WebElement getTabLogin(){
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(tabLogin));
+        return getElement(tabLogin,true);
     }
     protected WebElement getTabLogout(){
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(tabLogout));
+        return getElement(tabLogout,true);
     }
     protected WebElement getLblWelcomeMessage(){
         return getElement(lblWelcomeMessage);
-    }
-    protected WebElement getH1(){
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(h1));
     }
     protected String getMenuItems(){return menuItems;}
 
@@ -100,8 +97,7 @@ public class GenetralPage {
                 return wait.until(ExpectedConditions.presenceOfElementLocated(key));
             }
         } catch (TimeoutException e) {
-            System.out.println("Không tìm thấy phần tử: " + key);
-            throw e; // Ném lỗi thay vì trả null để tránh NullPointerException
+            throw e;
         }
     }
     public WebElement getNotElement(By key) {
@@ -109,8 +105,7 @@ public class GenetralPage {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
             return wait.until(ExpectedConditions.elementToBeClickable(key));
         } catch (TimeoutException e) {
-            System.out.println("Không tìm thấy phần tử: " + key);
-            return null; // Trả về null thay vì ném lỗi
+            return null;
         }
     }
 
@@ -142,7 +137,7 @@ public class GenetralPage {
     }
 
     public void checkLogOutTabDisplayed(ExtentTest test, HomePage homePage) {
-        if(getElement(headerLogout).isDisplayed()){
+        if(getTabLogout().isDisplayed()){
             test.log(Status.PASS, "\"Logout\" tabs are displayed.");
         }else{
             test.fail("\"Logout\" tabs are not displayed.");

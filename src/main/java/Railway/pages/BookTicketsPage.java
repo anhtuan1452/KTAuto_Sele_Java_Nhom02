@@ -1,11 +1,14 @@
 package Railway.pages;
 
 import Railway.dataObjects.Enum.Enum;
+import com.aventstack.extentreports.ExtentTest;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class BookTicketsPage extends GenetralPage {
     //Locators
-    private final By pageHeader = By.xpath("//h1[contains(text(),'Book ticket')]");
     private final By dateDropdown = By.xpath("//select[@name='Date']");
     private final By departDropdown = By.xpath("//select[@name='DepartStation']");
     private final By arriveDropdown = By.xpath("//select[@name='ArriveStation']");
@@ -79,33 +82,49 @@ public class BookTicketsPage extends GenetralPage {
 
     public boolean isTicketInfoCorrect(String fieldName, String check){
         int index = getColumnIndex(fieldName);
-        String xpath = String.format("//tr[td[%s][contains(text(),'%s')]]", index,check);
+        String xpath = String.format("//tr[2]/td[%s][contains(text(),'%s')]", index,check);
         System.out.println("Generated XPath: " + xpath);
-        WebElement b = getElement(By.xpath(xpath));
-        scrollElement(b);
-        return b != null;
+        WebElement InforElement = getElement(By.xpath(xpath));
+        scrollElement(InforElement);
+        return InforElement != null;
     }
-    public void bookTicket(String date, String depart, String arrive, String seatType, String amount) {
-        try {
-            pickDate(date);
-            WebElement dateElement = getElement(dateDropdown);
-            System.out.println("Date Dropdown is displayed: " + dateElement.isDisplayed());
-            pickFrom(depart);
-            pickArrive(arrive);
-            pickSeatType(seatType);
-            pickTicketAmount(amount);
-            BookTicketButton().click();
-        } catch (IllegalArgumentException e){
-            System.out.println("No search element: "+ e);
-        }
+    public void bookTicket(String date, String depart, String arrive, String seatType, String amount, ExtentTest test, HomePage homePage) {
+        int maxRetries = 5;
+        boolean isBooked = false;
 
+        for (int attempt = 1; attempt <= maxRetries && !isBooked; attempt++) {
+            try {
+                pickDate(date);
+                System.out.println("Date Dropdown is displayed: " + DateDropdown().isDisplayed());
+                pickFrom(depart);
+                pickArrive(arrive);
+                pickSeatType(seatType);
+                pickTicketAmount(amount);
+                sleepSafe(600);
+                BookTicketButton().click();
+                if (isSuccessfulTicketPurchaseNotification()) {
+                    isBooked = true;
+                    test.pass("Book ticket successfully: " + date + " - Depart: " + depart + " - Arrive: " + arrive);
+                    test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "BookTicketSuccess"));
+                    break;
+                } else {
+                    throw new Exception("Booking confirmation not found.");
+                }
+            } catch (Exception e) {
+                System.out.println("Attempt " + attempt + " failed: " + e.getMessage());
+                if (attempt < maxRetries) {
+                    driver.navigate().refresh();
+                    sleepSafe(2000);
+                } else {
+                    test.fail("Failed to book ticket after " + maxRetries + " retries: " + date + " - Depart: " + depart + " - Arrive: " + arrive);
+                    test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "BookTicketError"));
+                }
+            }
+        }
     }
-    public void clickBookTicket(){
-        getElement(bookTicketButton,true).click();
-    }
+
     public boolean isSuccessfulTicketPurchaseNotification(){
-        WebElement Mgs = getElement(successMessage);
-        if(Mgs != null){return true;};
+        if(SuccessMessage() != null){return true;};
         return false;
     }
 }

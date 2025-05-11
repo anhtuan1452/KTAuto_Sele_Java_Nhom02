@@ -32,6 +32,7 @@ public class ChangePasswordTests {
         homePage.open();
         homePage.clickMenuItem("Register");
         registerPage = new RegisterPage(driver);
+        homePage.clickMenuItem("Register");
         generatedEmail= registerPage.generateGmail();
         registerPage.registerAccount(generatedEmail, Constant.PASSWORD,Constant.PASSWORD,"11111111");
         registerPage.clickMenuItem("Login");
@@ -70,6 +71,7 @@ public class ChangePasswordTests {
             test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "TC09"));
         }
     }
+
 
     @AfterMethod
     public void teardown() {

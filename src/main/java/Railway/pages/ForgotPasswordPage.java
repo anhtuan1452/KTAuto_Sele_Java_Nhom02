@@ -23,6 +23,9 @@ public class ForgotPasswordPage extends GenetralPage{
         sleepSafe(300);
         return getElement(btnSendIns);
     }
+    protected WebElement getErrorPage() {
+        return getElement(errorPage);
+    }
 
     // Constructor
     public ForgotPasswordPage(WebDriver driver){
@@ -37,7 +40,7 @@ public class ForgotPasswordPage extends GenetralPage{
     }
 
     public boolean isErrorPageDisplayed() {
-        return getElement(errorPage).isDisplayed();
+        return getErrorPage().isDisplayed();
     }
 
 

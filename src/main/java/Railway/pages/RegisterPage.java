@@ -77,6 +77,9 @@ public class RegisterPage extends GenetralPage {
         ConfirmpasswordField().sendKeys(rpw);
         PidField().sendKeys(pid);
         clickBtnRegister();
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(formErrorMessage));
     }
 
 
