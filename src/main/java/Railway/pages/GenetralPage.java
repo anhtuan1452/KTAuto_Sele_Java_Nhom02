@@ -1,5 +1,7 @@
 package Railway.pages;
 
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -145,19 +147,31 @@ public class GenetralPage {
         return screenshotPath;
     }
 
-
-    public Boolean isMyTicketTabDisplayed() {
-        return getElement(headerMyticket).isDisplayed();
+    public void checkLogOutTabDisplayed(ExtentTest test, HomePage homePage) {
+        if(getElement(headerLogout).isDisplayed()){
+            test.log(Status.PASS, "\"Logout\" tabs are displayed.");
+        }else{
+            test.fail("\"Logout\" tabs are not displayed.");
+            test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "TC06"));
+        }
     }
 
-    public Boolean isLogOutTabDisplayed() {
-        return getElement(headerLogout).isDisplayed();
+    public void checkMyTicketTabDisplayed(ExtentTest test, HomePage homePage) {
+        if(getElement(headerMyticket).isDisplayed()){
+            test.log(Status.PASS, "\"My ticket\" tabs are displayed.");
+        }else{
+            test.fail("\"My ticket\" tabs are not displayed.");
+            test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "TC06"));
+        }
     }
 
-    public Boolean isChangePasswordTabDisplayed() {
-        return getElement(headerChangePassword).isDisplayed();
+    public void checkChangePasswordTabDisplayed(ExtentTest test, HomePage homePage) {
+        if(getElement(headerChangePassword).isDisplayed()){
+            test.log(Status.PASS, "\"Change password\" tabs are displayed.");
+        }else{
+            test.fail("\"Change password\" tabs are not displayed.");
+            test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "TC06"));
+        }
     }
-
-
 
 }

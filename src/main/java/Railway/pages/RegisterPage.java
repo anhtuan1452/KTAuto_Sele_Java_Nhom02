@@ -40,6 +40,7 @@ public class RegisterPage extends GenetralPage {
     public RegisterPage(WebDriver driver){
         super(driver);
     }
+
     public String getCompeleteMessenger(){
         if(Messeger()== null){return " ";}
         return Messeger().getText();

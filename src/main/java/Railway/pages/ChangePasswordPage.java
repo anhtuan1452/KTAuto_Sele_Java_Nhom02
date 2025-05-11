@@ -1,6 +1,8 @@
 package Railway.pages;
 
 import Railway.Common.Constant.Constant;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -42,8 +44,17 @@ public class ChangePasswordPage extends GenetralPage {
     }
 
     // Methods
-    public boolean isChangePasswordPageDisplayed() {
-        return getElement(pageTitle).isDisplayed();
+//    public boolean isChangePasswordPageDisplayed() {
+//        return getElement(pageTitle).isDisplayed();
+//    }
+
+    public void checkChangePasswordPageDisplayed(ExtentTest test, HomePage homePage) {
+        if(getElement(pageTitle).isDisplayed()) {
+            test.log(Status.PASS, "Change Password page is displayed");
+        } else {
+            test.fail("Change Password page is not displayed");
+            test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "ChangePasswordPage"));
+        }
     }
     public void changePassword(String currentPw, String newPw, String confirmPw) {
         CurrentPasswordField().sendKeys(currentPw);
