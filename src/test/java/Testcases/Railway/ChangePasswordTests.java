@@ -34,12 +34,12 @@ public class ChangePasswordTests {
 
         test = extent.createTest("TC09", this.getClass().getDeclaredMethod("TC09").getAnnotation(Test.class).description());
         try {
+            homePage.clickMenuItem("Register");
             registerPage = new RegisterPage(driver);
             String a= registerPage.generateGmail();
             registerPage.registerAccount(a, registerPage.pw,registerPage.pw,"11111111");
             registerPage.clickMenuItem("Login");
             test.log(Status.INFO, "Navigate to QA Railway Website");
-            homePage.open();
             test.log(Status.INFO, "Click on \"Login\" tab");
             homePage.clickMenuItem("Login");
             test.log(Status.INFO, "Login with valid account and password");
@@ -55,7 +55,7 @@ public class ChangePasswordTests {
             String successMessage = changePasswordPage.getSuccessMessage();
             boolean check = successMessage.equals(expectedWarning);
             if (check) {
-                test.log(Status.PASS, "User can change password successfully.");
+                test.log(Status.PASS, "Message \"Your password has been updated\" appears.");
             } else {
                 test.fail("User can't change password.");
                 test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "TC09"));
