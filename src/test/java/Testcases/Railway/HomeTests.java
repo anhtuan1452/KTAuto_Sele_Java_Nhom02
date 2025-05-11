@@ -46,41 +46,23 @@ public class HomeTests {
             homePage.clickMenuItem("Login");
             LoginPage loginPage = new LoginPage(driver);
 
-
             test.log(Status.INFO, "Login with valid account");
             loginPage.login(Constant.USERNAME, Constant.PASSWORD);
 
             test.log(Status.INFO, " Verify that \"My ticket\", \"Change password\" and \"Logout\" tabs are displayed.");
-            boolean checkDisplay = homePage.isLogOutTabDisplayed()
-                    && homePage.isMyTicketTabDisplayed()
-                    && homePage.isChangePasswordTabDisplayed();
-            if(checkDisplay){
-                test.log(Status.PASS, "\"My ticket\", \"Change password\" and \"Logout\" tabs are displayed.");
-            }else{
-                test.fail("\"My ticket\", \"Change password\" or \"Logout\" tabs are not displayed.");
-                test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "TC06"));
-            }
+            homePage.checkLogOutTabDisplayed(test,homePage);
+            homePage.checkChangePasswordTabDisplayed(test, homePage);
+            homePage.checkMyTicketTabDisplayed(test,homePage);
 
-            test.log(Status.INFO, "Click 'My ticket' tab");
+            test.log(Status.INFO, "Verify that when the user clicks the 'My ticket' tab, they are directed to the My ticket page.");
             homePage.clickMenuItem("My ticket");
             MyTicketPage myTicketPage = new MyTicketPage(driver);
-            if (myTicketPage.isMyTicketPageDisplayed()) {
-                test.log(Status.PASS, "User is directed to the My ticket page");
-            } else {
-                test.fail("User isn't directed to the My ticket page");
-                test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "TC06"));
-            }
+            myTicketPage.checkMyTicketPageDisplayed(test,homePage);
 
-            test.log(Status.INFO, "Click 'Change password' tab");
+            test.log(Status.INFO, "Verify that when the user clicks the 'Change password' tab, they are directed to the Change password page.");
             homePage.clickMenuItem("Change password");
             ChangePasswordPage changePasswordPage = new ChangePasswordPage(driver);
-            if (changePasswordPage.isChangePasswordPageDisplayed()) {
-                test.log(Status.PASS, "User is directed to the Change password page");
-            } else {
-                test.fail("User isn't directed to the Change password page");
-                test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "TC06"));
-                Assert.fail("User isn't directed to the Change password page");
-            }
+            changePasswordPage.checkChangePasswordPageDisplayed(test,homePage);
 
         }
         catch (Exception e) {

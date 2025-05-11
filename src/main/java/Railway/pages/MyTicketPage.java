@@ -1,6 +1,8 @@
 package Railway.pages;
 
 import Railway.Common.Constant.Constant;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -16,9 +18,13 @@ public class MyTicketPage extends GenetralPage {
     }
 
     // Methods
-
-    public boolean isMyTicketPageDisplayed() {
-        return getElement(pageTitle).isDisplayed();
+    public void checkMyTicketPageDisplayed(ExtentTest test,HomePage homePage) {
+        if (getElement(pageTitle).isDisplayed()) {
+            test.log(Status.PASS, "My Ticket page is displayed");
+        } else {
+            test.fail("My Ticket page is not displayed");
+            test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "MyTicketPage"));
+        }
     }
     public boolean cancelTicket(String ticketId) {
             String cancelButtonXPath = String.format(".//input[@type='button' and @value='Cancel' and contains(@onclick, 'DeleteTicket(%s)')]", ticketId);
@@ -41,5 +47,7 @@ public class MyTicketPage extends GenetralPage {
         }
         return false;
     }
+
+
 
 }
