@@ -34,8 +34,11 @@ public class RegisterTests {
     @BeforeMethod
     public void setup() {
         driver = DriverFactory.getDriver();
-
+        homePage = new HomePage(driver);
+        homePage.clickMenuItem("Register");
+        registerPage = new RegisterPage(driver);
     }
+
 
     @Test(description = "TC07 - User can create new account")
     public void TC07() throws NoSuchMethodException{
