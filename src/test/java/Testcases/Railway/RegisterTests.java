@@ -34,8 +34,11 @@ public class RegisterTests {
     @BeforeMethod
     public void setup() {
         driver = DriverFactory.getDriver();
-
+        homePage = new HomePage(driver);
+        homePage.clickMenuItem("Register");
+        registerPage = new RegisterPage(driver);
     }
+
 
     @Test(description = "TC07 - User can create new account")
     public void TC07() throws NoSuchMethodException{
@@ -108,7 +111,7 @@ public class RegisterTests {
             Assert.assertTrue(confirmPasswordErrorDisplayed, "Confirm Password error message not displayed");
             test.log(Status.INFO, "Confirm Password error message displayed: " + confirmPasswordErrorDisplayed);
 
-            test.log(Status.PASS, "Error message displayed successfully. Test completed at: " + java.time.LocalDateTime.now());
+            test.log(Status.PASS, "There're errors in the form. Please correct the errors and try again.. Test completed at: " + java.time.LocalDateTime.now());
         } catch (Exception e) {
             test.log(Status.FAIL, "Test failed: " + e.getMessage() + " at " + java.time.LocalDateTime.now());
             test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "TC10"));
@@ -119,50 +122,32 @@ public class RegisterTests {
     public void TC11() throws NoSuchMethodException {
         test = extent.createTest("TC11", this.getClass().getDeclaredMethod("TC11").getAnnotation(Test.class).description());
         try {
-            test.log(Status.INFO, "Navigate to QA Railway Website and click 'Register' tab at: " + java.time.LocalDateTime.now());
+            // Bước 1: Navigate to QA Railway Website
+            test.log(Status.INFO, "Navigate to QA Railway Website at: " + java.time.LocalDateTime.now());
+            homePage.open();
+
+            // Bước 2: Click on "Register" tab
+            test.log(Status.INFO, "Click on \"Register\" tab at: " + java.time.LocalDateTime.now());
+            homePage.clickMenuItem("Register");
+
+            // Bước 3: Enter valid email address and leave other fields empty
+            test.log(Status.INFO, "Enter valid email and leave password and PID fields empty at: " + java.time.LocalDateTime.now());
             String email = homePage.generateGmail();
-            User user = new User(email, "", "", "");
-            test.log(Status.INFO, "Enter valid email and leave password and PID fields empty");
-            test.log(Status.INFO, "Email: " + user.getEmail());
-            test.log(Status.INFO, "Password: " + user.getPassword());
-            test.log(Status.INFO, "Confirm Password: " + user.getConfirmPassword());
-            test.log(Status.INFO, "PID: " + user.getPid());
+            User user = new User(email, "", "", ""); // Để trống password và PID
             registerPage.registerAccount(user.getEmail(), user.getPassword(), user.getConfirmPassword(), user.getPid());
-            test.log(Status.INFO, "Click on 'Register' button at: " + java.time.LocalDateTime.now());
 
+            // Bước 4: Click on "Register" button
+            test.log(Status.INFO, "Click on \"Register\" button at: " + java.time.LocalDateTime.now());
+            registerPage.clickRegister();
+
+            // Kiểm tra thông báo trên form
             String expectedFormMsg = "There're errors in the form. Please correct the errors and try again.";
-            String actualFormMsg = registerPage.getMessenger();
-            test.log(Status.INFO, "Expected form message: " + expectedFormMsg);
-            test.log(Status.INFO, "Actual form message: " + actualFormMsg);
-            boolean formMsgMatch = actualFormMsg.equals(expectedFormMsg);
-            test.log(Status.INFO, "Form message match result: " + formMsgMatch);
-            Assert.assertEquals(actualFormMsg, expectedFormMsg, "Form error message should match");
+            registerPage.checkFormErrorMessageDisplayed(expectedFormMsg, homePage,test);
+            String expectedPasswordMsg = "Invalid password length";
+            registerPage.checkMessageBlankPasswordDisplayed(expectedPasswordMsg, homePage, test);
+            String expectedPIDMsg = "Invalid ID length";
+            registerPage.checkMessageBlankPidDisplayed(expectedPIDMsg,homePage, test);
 
-            String expectedPasswordMsg = "Invalid password length"; // Bỏ dấu chấm để khớp với thực tế
-            String passwordErrorXPath = String.format("//input[@id='%s']/following-sibling::label[contains(@class, 'validation-error')]",
-                    Enum.RegistrationField.PASSWORD.getLabel().toLowerCase());
-            test.log(Status.INFO, "Checking password error message...");
-            WebElement passwordError = driver.findElement(By.xpath(passwordErrorXPath));
-            boolean passwordErrorDisplayed = passwordError.isDisplayed();
-            String passwordErrorText = passwordError.getText().trim();
-            test.log(Status.INFO, "Password error message displayed: " + passwordErrorDisplayed);
-            test.log(Status.INFO, "Password error message content: " + passwordErrorText);
-            Assert.assertTrue(passwordErrorDisplayed, "Password error message not displayed");
-            Assert.assertEquals(passwordErrorText, expectedPasswordMsg, "Password error message content mismatch");
-
-            String expectedPidMsg = "Invalid ID length"; // Bỏ dấu chấm để khớp với thực tế
-            String pidErrorXPath = String.format("//input[@id='%s']/following-sibling::label[contains(@class, 'validation-error')]",
-                    Enum.RegistrationField.PID.getLabel().toLowerCase());
-            test.log(Status.INFO, "Checking PID error message...");
-            WebElement pidError = driver.findElement(By.xpath(pidErrorXPath));
-            boolean pidErrorDisplayed = pidError.isDisplayed();
-            String pidErrorText = pidError.getText().trim();
-            test.log(Status.INFO, "PID error message displayed: " + pidErrorDisplayed);
-            test.log(Status.INFO, "PID error message content: " + pidErrorText);
-            Assert.assertTrue(pidErrorDisplayed, "PID error message not displayed");
-            Assert.assertEquals(pidErrorText, expectedPidMsg, "PID error message content mismatch");
-
-            test.log(Status.PASS, "All error messages displayed successfully. Test completed at: " + java.time.LocalDateTime.now());
         } catch (Exception e) {
             test.log(Status.FAIL, "Test failed: " + e.getMessage() + " at " + java.time.LocalDateTime.now());
             test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "TC11"));
@@ -175,4 +160,12 @@ public class RegisterTests {
             driver.quit();
         }
     }
+    @AfterClass
+    public void tearDownClass() {
+        // Đóng Extent Reports
+        if (extent != null) {
+            extent.flush();
+        }
+    }
+
 }
