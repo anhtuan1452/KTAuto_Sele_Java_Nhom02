@@ -133,8 +133,11 @@ public class LoginTests {
             test.info("Click on \"Login\" button");
             String actualMsg = "You have used 5 out of 5 login attempts. After all 5 have been used, you will be unable to login for 15 minutes.";
             String expectedMsg = loginPage.getErrorMessage();
+            loginPage.checkMsgWrongPass(test, homePage, actualMsg, expectedMsg);
+
             Assert.assertEquals(actualMsg, expectedMsg);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             System.out.println("Exception caught: " + e.getMessage());
             test.fail("Test failed: User can login with invalid password. Error: " + e.getMessage());
             test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "TC05"));
@@ -142,21 +145,31 @@ public class LoginTests {
 
     }
 
-    @Test(description = "User can't login with an account hasn't been activated")
+    @Test(description = "TC08 - User can't login with an account hasn't been activated")
     public void TC08() throws NoSuchMethodException {
-
         test = extent.createTest("TC08", this.getClass().getDeclaredMethod("TC08").getAnnotation(Test.class).description());
         try {
             test.log(Status.INFO, "Navigate to QA Railway Website");
-            LoginPage loginPage = new LoginPage(driver);
+            homePage = new HomePage(driver);
+            homePage.open();
+
             test.log(Status.INFO, "Click on \"Login\" tab");
-            loginPage.clickMenuItem("Login");
-            test.log(Status.INFO, "Login with an account hasn't been activated");
-            boolean a = true;
-            Assert.assertTrue(a);
-            test.pass("User can't login and message \"Invalid username or password. Please try again.\" appears.");
-        }catch (Exception e){
-            throw new RuntimeException(e);
+            homePage.clickMenuItem("Login");
+            LoginPage loginPage = new LoginPage(driver);
+
+            test.log(Status.INFO, "Enter username and password of account hasn't been activated.");
+            loginPage.login("qwert1234", "12345678");
+
+            test.info("Click on \"Login\" button");
+            String actualMsg = "Invalid username or password. Please try again.";
+            String expectedMsg = loginPage.getErrorMessage();
+            loginPage.checkMsgLoginFailed2(test, homePage, actualMsg, expectedMsg);
+            Assert.assertEquals(actualMsg, expectedMsg);
+        }
+        catch (Exception e){
+            System.out.println("Exception caught: " + e.getMessage());
+            test.fail("Test failed: User can't login with an account hasn't been activated. Error: " + e.getMessage());
+            test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "TC08"));
         }
     }
 

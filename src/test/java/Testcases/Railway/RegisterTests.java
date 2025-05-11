@@ -45,22 +45,21 @@ public class RegisterTests {
         test = extent.createTest("TC07", this.getClass().getDeclaredMethod("TC07").getAnnotation(Test.class).description());
         try {
             test.log(Status.INFO, "Navigate to QA Railway Website");
-            homePage = new HomePage(driver);
             homePage.open();
 
             test.log(Status.INFO, "Click on \"Register\" tab");
             homePage.clickMenuItem("Register");
-            RegisterPage registerPage = new RegisterPage(driver);
+            registerPage = new RegisterPage(driver);
 
             test.log(Status.INFO, "Enter valid information into all fields");
             String email = homePage.generateGmail();
-            registerPage.registerAccount(email,homePage.pw,homePage.pw,"11111111");
+            registerPage.registerAccount(email,Constant.PASSWORD,Constant.PASSWORD,"11111111");
 
-            test.info("Click on \"Send Instructions\" button");
+            test.info("Click on \"Register\" button");
             String actualMsg = "Thank you for registering your account";
-            String expectedMsg= registerPage.getCompeleteMessenger();
+            String expectedMsg= registerPage.getMsgSuccessCreate();
             registerPage.checkMsgCorrect(test,homePage,actualMsg,expectedMsg);
-
+            Assert.assertEquals(actualMsg, expectedMsg);
         }
         catch (Exception e) {
             System.out.println("Exception caught: " + e.getMessage());
@@ -152,5 +151,6 @@ public class RegisterTests {
             extent.flush();
         }
     }
+
 
 }

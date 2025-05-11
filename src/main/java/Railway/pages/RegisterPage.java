@@ -18,6 +18,7 @@ public class RegisterPage extends GenetralPage {
     private final By btnResgiter = By.xpath("//form[@id=\"RegisterForm\"]/fieldset/p/input");
     private final By messageBlankPassword = By.xpath("//form[@id=\"RegisterForm\"]/fieldset/ol/li[2]/label[2]");
     private final By formErrorMessage = By.xpath("//div[@id=\"content\"]/p[2]");
+    private final By msgSuccessCreate = By.xpath("//div[@id=\"content\"]/p");
     private final By messageBlankPid = By.xpath("//form[@id=\"RegisterForm\"]/fieldset/ol/li[4]/label[2]");
 
 
@@ -35,12 +36,13 @@ public class RegisterPage extends GenetralPage {
         return getElement(pidField);
     }
     protected WebElement BtnResgiter(){
-        return getElement(btnResgiter);
+        return getElement(btnResgiter,true);
     }
     protected WebElement Messeger(){
         return getElement(formErrorMessage);
     }
     protected WebElement getMessegerError() {return getElement(messageBlankPassword);}
+    protected WebElement getSuccessCreate() {return getElement(msgSuccessCreate);}
 
     // method
     public RegisterPage(WebDriver driver){
@@ -63,15 +65,16 @@ public class RegisterPage extends GenetralPage {
         if(getMessegerError()== null){return " ";}
         return getMessegerError().getText();
     }
+    public String getMsgSuccessCreate(){
+        if(getSuccessCreate()== null){return " ";}
+        return getSuccessCreate().getText();
+    }
     public void registerAccount(String a, String pw, String rpw, String pid) {
         EmailField().sendKeys(a);
         PasswordField().sendKeys(pw);
         ConfirmpasswordField().sendKeys(rpw);
         PidField().sendKeys(pid);
         clickBtnRegister();
-
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(formErrorMessage));
     }
 
 

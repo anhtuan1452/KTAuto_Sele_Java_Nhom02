@@ -63,11 +63,20 @@ public class LoginPage extends GenetralPage {
         }
     }
 
+    public void checkMsgLoginFailed2(ExtentTest test, HomePage homePage, String expectedMsg, String actualMsg) {
+        if (expectedMsg.equals(actualMsg)) {
+            test.log(Status.PASS, "Error message \"Invalid username or password. Please try again\" is displayed");
+        } else {
+            test.fail("Error message \"Invalid username or password. Please try again\" is not displayed");
+            test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "LoginPage"));
+        }
+    }
+
     public void checkMsgWrongPass(ExtentTest test, HomePage homePage, String expectedMsg, String actualMsg) {
         if (expectedMsg.equals(actualMsg)) {
             test.log(Status.PASS, "Message \"You have used 4 out of 5 login attempts. After all 5 have been used, you will be unable to login for 15 minutes.\" appears.");
         } else {
-            test.fail("User can't login and message \"You have used 4 out of 5 login attempts. After all 5 have been used, you will be unable to login for 15 minutes.\" appears.");
+            test.fail("Message \"You have used 4 out of 5 login attempts. After all 5 have been used, you will be unable to login for 15 minutes.\" not appears.");
             test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "LoginPage"));
         }
     }

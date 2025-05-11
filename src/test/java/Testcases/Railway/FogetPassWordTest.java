@@ -80,4 +80,11 @@ public class FogetPassWordTest {
             driver.quit();
         }
     }
+    @AfterClass
+    public void tearDownClass() {
+        // Đóng Extent Reports
+        if (extent != null) {
+            extent.flush();
+        }
+    }
 }
