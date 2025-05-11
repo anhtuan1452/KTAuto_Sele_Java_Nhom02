@@ -70,9 +70,6 @@ public class ChangePasswordPage extends GenetralPage {
         ChangePasswordButton().click();
     }
 
-    public String getErrorMessage() {
-        return ErrorMessage().getText();
-    }
 
     public String getSuccessMessage() {
         sleepSafe(500);

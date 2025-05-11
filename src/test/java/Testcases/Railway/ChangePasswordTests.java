@@ -39,6 +39,7 @@ public class ChangePasswordTests {
 
     @Test(description = "TC09 - User can change password")
     public void TC09() throws NoSuchMethodException {
+
         test = extent.createTest("TC09", this.getClass().getDeclaredMethod("TC09").getAnnotation(Test.class).description());
         try {
             test.log(Status.INFO, "Navigate to QA Railway Website");
