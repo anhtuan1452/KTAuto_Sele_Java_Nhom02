@@ -35,10 +35,39 @@ public class FogetPassWordTest {
         registerPage.registerAccount(email_created,homePage.pw,homePage.pw,"11111111");
     }
 
-//    @Test
-//    public void TC12(){
-//        Assert.assertEquals(true,true);
-//    }
+    @Test(description = "TC012 - Errors display when password reset token is blank")
+    public void TC12() throws NoSuchMethodException {
+        test = extent.createTest("TC12", this.getClass().getDeclaredMethod("TC12").getAnnotation(Test.class).description());
+        try {
+            test.log(Status.INFO, "Navigate to QA Railway Login page");
+            homePage.clickMenuItem("Login");
+            LoginPage loginPage = new LoginPage(driver);
+
+            test.log(Status.INFO, "Click on \"Forgot Password page\" link");
+            loginPage.gotoForgotPasswordPage();
+            ForgotPasswordPage forgotPasswordPage = new ForgotPasswordPage(driver);
+
+            test.log(Status.INFO, "Enter the email address of the created account in Pre-condition");
+            forgotPasswordPage.getPassword(email_created);
+
+            test.info("Click on \"Send Instructions\" button");
+
+            test.log(Status.INFO, "Verifying the outcome of the action.");
+            boolean isErrorDisplayed = forgotPasswordPage.isErrorPageDisplayed();
+            Assert.assertFalse(isErrorDisplayed, "The error page was displayed unexpectedly.");
+            test.pass("Test completed successfully.");
+        }
+        catch (Throwable e) {
+            test.fail("Test failed: " + e.getMessage());
+            try {
+                String screenshotName = "TC12" + System.currentTimeMillis();
+                test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, screenshotName));
+            } catch (Exception screenshotEx) {
+                test.log(Status.WARNING, "Failed to capture screenshot: " + screenshotEx.getMessage());
+            }
+            throw new RuntimeException(e);
+        }
+    }
 
     @Test(description = "TC013 - Errors display if password and confirm password don't match when resetting password")
     public void TC13() throws NoSuchMethodException{
