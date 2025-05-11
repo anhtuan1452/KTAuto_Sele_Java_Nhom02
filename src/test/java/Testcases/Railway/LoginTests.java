@@ -1,6 +1,7 @@
 package Testcases.Railway;
 
 import Railway.Common.Constant.Constant;
+import Railway.dataObjects.User;
 import Railway.pages.HomePage;
 import Railway.pages.LoginPage;
 import Railway.utils.DriverFactory;
@@ -41,7 +42,8 @@ public class LoginTests {
             LoginPage loginPage = new LoginPage(driver);
 
             test.log(Status.INFO, "Login with valid account and password");
-            loginPage.login(Constant.USERNAME, Constant.PASSWORD);
+            User user = new User();
+            loginPage.login(user);
 
             test.info("Click on \"Login\" button");
 
@@ -70,8 +72,8 @@ public class LoginTests {
             LoginPage loginPage = new LoginPage(driver);
 
             test.log(Status.INFO, "Login with blank \"Username\" textbox");
-            loginPage.login("", Constant.PASSWORD);
-
+            User user = new User("",Constant.PASSWORD);
+            loginPage.login(user);
             test.info("Click on \"Login\" button");
             String actualMsg = "There was a problem with your login and/or errors exist in your form.";
             String expectedMsg = loginPage.getErrorMessage();
@@ -98,8 +100,8 @@ public class LoginTests {
             LoginPage loginPage = new LoginPage(driver);
 
             test.log(Status.INFO, "Login with invalid password");
-            loginPage.login(Constant.USERNAME, "12345678");
-
+            User user = new User(Constant.USERNAME, "12345678");
+            loginPage.login(user);
             test.info("Click on \"Login\" button");
             String actualMsg = "There was a problem with your login and/or errors exist in your form.";
             String expectedMsg = loginPage.getErrorMessage();
@@ -126,8 +128,9 @@ public class LoginTests {
             LoginPage loginPage = new LoginPage(driver);
 
             test.log(Status.INFO, "Login with invalid password");
+            User user = new User(Constant.USERNAME, "12345678");
             for (int i = 0; i < 5; i++) {
-                loginPage.login(Constant.USERNAME, "12345678");
+                loginPage.login(user);
             }
 
             test.info("Click on \"Login\" button");
@@ -158,8 +161,8 @@ public class LoginTests {
             LoginPage loginPage = new LoginPage(driver);
 
             test.log(Status.INFO, "Enter username and password of account hasn't been activated.");
-            loginPage.login("qwert1234", "12345678");
-
+            User user = new User("qwert1234", "12345678");
+            loginPage.login(user);
             test.info("Click on \"Login\" button");
             String actualMsg = "Invalid username or password. Please try again.";
             String expectedMsg = loginPage.getErrorMessage();

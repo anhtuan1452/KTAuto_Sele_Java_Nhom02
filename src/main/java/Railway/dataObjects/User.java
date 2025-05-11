@@ -1,5 +1,7 @@
 package Railway.dataObjects;
 
+import Railway.Common.Constant.Constant;
+
 public class User {
     private String email;
     private String password;
@@ -12,6 +14,11 @@ public class User {
         this.confirmPassword = confirmPassword;
         this.pid = pid;
     }
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+    public User(){ this(Constant.USERNAME, Constant.PASSWORD);}
 
     // Getters và Setters
     public String getEmail() { return email; }

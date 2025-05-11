@@ -1,5 +1,7 @@
 package Testcases.Railway;
 
+import Railway.Common.Constant.Constant;
+import Railway.dataObjects.User;
 import Railway.pages.*;
 import Railway.utils.DriverFactory;
 import org.openqa.selenium.WebDriver;
@@ -26,7 +28,8 @@ public class TimeTableTests {
         registerPage.registerAccount(a, registerPage.pw,registerPage.pw,"11111111");
         registerPage.clickMenuItem("Login");
         loginPage = new LoginPage(driver);
-        loginPage.login(a,registerPage.pw);
+        User user = new User(a, Constant.PASSWORD);
+        loginPage.login(user);
         homePage.clickMenuItem("Timetable");
         timeTablePage = new TimeTablePage(driver);
     }

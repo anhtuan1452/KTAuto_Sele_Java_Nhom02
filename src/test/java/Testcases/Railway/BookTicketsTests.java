@@ -1,5 +1,6 @@
 package Testcases.Railway;
 
+import Railway.dataObjects.User;
 import Railway.pages.BookTicketsPage;
 import Railway.pages.HomePage;
 import Railway.pages.LoginPage;
@@ -73,7 +74,8 @@ public class BookTicketsTests {
 //            test.log(Status.INFO, "Nhấp vào menu Login");
             homePage.clickMenuItem("Login");
             test.log(Status.INFO, "Login with a valid account");
-            loginPage.login(loginPage.un, loginPage.pw);
+            User user = new User();
+            loginPage.login(user);
             test.log(Status.INFO, "Click on \"Book ticket\" tab");
             homePage.clickMenuItem("Book ticket");
 
@@ -128,7 +130,8 @@ public class BookTicketsTests {
             homePage.open();
             loginPage.clickMenuItem("Login");
             test.log(Status.INFO, "Login with a valid account");
-            loginPage.login(loginPage.un, loginPage.pw);
+            User user = new User();
+            loginPage.login(user);
             test.log(Status.INFO, "Click on \"Book ticket\" tab");
             homePage.clickMenuItem("Book ticket");
         } catch (Exception e) {

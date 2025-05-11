@@ -1,5 +1,6 @@
 package Railway.pages;
 
+import Railway.dataObjects.User;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 import org.openqa.selenium.*;
@@ -81,9 +82,9 @@ public class LoginPage extends GenetralPage {
         }
     }
 
-    public void login(String username, String password) {
-        UsernameField().sendKeys(username);
-        PasswordField().sendKeys(password);
+    public void login(User user) {
+        UsernameField().sendKeys(user.getEmail());
+        PasswordField().sendKeys(user.getPassword());
         scrollElement(LoginButton());
         LoginButton().click();
     }

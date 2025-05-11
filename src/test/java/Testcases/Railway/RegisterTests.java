@@ -53,7 +53,8 @@ public class RegisterTests {
 
             test.log(Status.INFO, "Enter valid information into all fields");
             String email = homePage.generateGmail();
-            registerPage.registerAccount(email,Constant.PASSWORD,Constant.PASSWORD,"11111111");
+            User user = new User(email, "123456789", "123456789", "11111111");
+            registerPage.registerAccount(user.getEmail(), user.getPassword(), user.getConfirmPassword(), user.getPid());
 
             test.info("Click on \"Register\" button");
             String actualMsg = "Thank you for registering your account";

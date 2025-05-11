@@ -1,6 +1,7 @@
 package Testcases.Railway;
 
 import Railway.Common.Constant.Constant;
+import Railway.dataObjects.User;
 import Railway.pages.ChangePasswordPage;
 import Railway.pages.HomePage;
 import Railway.pages.LoginPage;
@@ -47,7 +48,8 @@ public class HomeTests {
             LoginPage loginPage = new LoginPage(driver);
 
             test.log(Status.INFO, "Login with valid account");
-            loginPage.login(Constant.USERNAME, Constant.PASSWORD);
+            User user = new User();
+            loginPage.login(user);
 
             test.log(Status.INFO, " Verify that \"My ticket\", \"Change password\" and \"Logout\" tabs are displayed.");
             homePage.checkLogOutTabDisplayed(test,homePage);

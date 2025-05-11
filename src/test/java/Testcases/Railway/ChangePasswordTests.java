@@ -1,6 +1,7 @@
 package Testcases.Railway;
 
 import Railway.Common.Constant.Constant;
+import Railway.dataObjects.User;
 import Railway.pages.*;
 import Railway.utils.DriverFactory;
 import Railway.utils.ExtentManager;
@@ -48,8 +49,8 @@ public class ChangePasswordTests {
 
             test.log(Status.INFO, "Login with valid account and password");
             loginPage = new LoginPage(driver);
-            loginPage.login(generatedEmail, Constant.PASSWORD);
-
+            User user = new User(generatedEmail, Constant.PASSWORD);
+            loginPage.login(user);
             test.log(Status.INFO, "Click on \"Change Password\" tab");
             homePage.clickMenuItem("Change password");
             ChangePasswordPage changePasswordPage = new ChangePasswordPage(driver);

@@ -1,5 +1,6 @@
 package Railway.pages;
 
+import Railway.dataObjects.User;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 import org.openqa.selenium.*;
@@ -69,6 +70,7 @@ public class RegisterPage extends GenetralPage {
         if(getSuccessCreate()== null){return " ";}
         return getSuccessCreate().getText();
     }
+
     public void registerAccount(String a, String pw, String rpw, String pid) {
         EmailField().sendKeys(a);
         PasswordField().sendKeys(pw);
