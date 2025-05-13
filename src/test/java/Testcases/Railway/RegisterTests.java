@@ -54,7 +54,7 @@ public class RegisterTests {
             test.log(Status.INFO, "Enter valid information into all fields");
             String email = homePage.generateGmail();
             User user = new User(email, "123456789", "123456789", "11111111");
-            registerPage.registerAccount(user.getEmail(), user.getPassword(), user.getConfirmPassword(), user.getPid());
+            registerPage.registerAccount(user);
 
             test.info("Click on \"Register\" button");
             String actualMsg = "Thank you for registering your account";
@@ -75,25 +75,20 @@ public class RegisterTests {
     public void TC10() throws NoSuchMethodException {
         test = extent.createTest("TC10", this.getClass().getDeclaredMethod("TC10").getAnnotation(Test.class).description());
         try {
-            // Bước 1: Navigate to QA Railway Website
             test.log(Status.INFO, "Navigate to QA Railway Website at: " + java.time.LocalDateTime.now());
             homePage.open();
 
-            // Bước 2: Click on "Register" tab
             test.log(Status.INFO, "Click on \"Register\" tab at: " + java.time.LocalDateTime.now());
             homePage.clickMenuItem("Register");
 
-            // Bước 3: Enter valid information except Confirm password not matching Password
             test.log(Status.INFO, "Enter valid information except Confirm password not matching Password at: " + java.time.LocalDateTime.now());
             String email = homePage.generateGmail();
             User user = new User(email, "123456789", "987654321", "11111111");
-            registerPage.registerAccount(user.getEmail(), user.getPassword(), user.getConfirmPassword(), user.getPid());
+            registerPage.registerAccount(user);
 
-            // Bước 4: Click on "Register" button
             test.log(Status.INFO, "Click on \"Register\" button at: " + java.time.LocalDateTime.now());
             registerPage.clickBtnRegister();
 
-            // Kiểm tra thông báo trên form
             String expectedFormMsg = "There're errors in the form. Please correct the errors and try again.";
             registerPage.checkFormErrorMessageDisplayed(expectedFormMsg, homePage, test);
 
@@ -107,25 +102,20 @@ public class RegisterTests {
     public void TC11() throws NoSuchMethodException {
         test = extent.createTest("TC11", this.getClass().getDeclaredMethod("TC11").getAnnotation(Test.class).description());
         try {
-            // Bước 1: Navigate to QA Railway Website
             test.log(Status.INFO, "Navigate to QA Railway Website at: " + java.time.LocalDateTime.now());
             homePage.open();
 
-            // Bước 2: Click on "Register" tab
             test.log(Status.INFO, "Click on \"Register\" tab at: " + java.time.LocalDateTime.now());
             homePage.clickMenuItem("Register");
 
-            // Bước 3: Enter valid email address and leave other fields empty
             test.log(Status.INFO, "Enter valid email and leave password and PID fields empty at: " + java.time.LocalDateTime.now());
             String email = homePage.generateGmail();
-            User user = new User(email, "", "", ""); // Để trống password và PID
-            registerPage.registerAccount(user.getEmail(), user.getPassword(), user.getConfirmPassword(), user.getPid());
+            User user = new User(email, "", "", "");
+            registerPage.registerAccount(user);
 
-            // Bước 4: Click on "Register" button
             test.log(Status.INFO, "Click on \"Register\" button at: " + java.time.LocalDateTime.now());
             registerPage.clickBtnRegister();
 
-            // Kiểm tra thông báo trên form
             String expectedFormMsg = "There're errors in the form. Please correct the errors and try again.";
             String expectedPasswordMsg = "Invalid password length";
             String expectedPIDMsg = "Invalid ID length";

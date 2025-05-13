@@ -71,15 +71,12 @@ public class RegisterPage extends GenetralPage {
         return getSuccessCreate().getText();
     }
 
-    public void registerAccount(String a, String pw, String rpw, String pid) {
-        EmailField().sendKeys(a);
-        PasswordField().sendKeys(pw);
-        ConfirmpasswordField().sendKeys(rpw);
-        PidField().sendKeys(pid);
+    public void registerAccount(User user) {
+        EmailField().sendKeys(user.getEmail());
+        PasswordField().sendKeys(user.getPassword());
+        ConfirmpasswordField().sendKeys(user.getConfirmPassword());
+        PidField().sendKeys(user.getPid());
         clickBtnRegister();
-
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(formErrorMessage));
     }
 
 

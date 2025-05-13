@@ -26,26 +26,35 @@ public class MyTicketPage extends GenetralPage {
             test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "MyTicketPage"));
         }
     }
-    public boolean cancelTicket(String ticketId) {
+    public boolean cancelTicket(String ticketId, ExtentTest test, HomePage homePage) {
             String cancelButtonXPath = String.format(".//input[@type='button' and @value='Cancel' and contains(@onclick, 'DeleteTicket(%s)')]", ticketId);
             WebElement cancelButton = getElement(By.xpath(cancelButtonXPath));
             scrollElement(cancelButton);
             cancelButton.click();
-            if (cancelButton == null) {
+            if (cancelButton != null) {
+                test.log(Status.INFO, "Cancel button is displayed");
+                return true;
+            } else {
+                test.fail("Cancel button is not displayed");
+                test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "MyTicketPage"));
                 return false;
             }
-            return true;
+
     }
 
-    public boolean confirmCancel(String ticketId) {
+    public boolean confirmCancel(String ticketId, ExtentTest test, HomePage homePage) {
         wait.until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().accept();
         String cancelButtonXPath = String.format(".//input[@type='button' and @value='Cancel' and contains(@onclick, 'DeleteTicket(%s)')]", ticketId);
         WebElement cancelButton = getNotElement(By.xpath(cancelButtonXPath));
         if (cancelButton == null) {
+            test.log(Status.PASS, "The canceled ticket is disappeared.");
             return true;
+        } else {
+            test.fail("The canceled ticket is not disappeared.");
+            test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "MyTicketPage"));
+            return false;
         }
-        return false;
     }
 
 

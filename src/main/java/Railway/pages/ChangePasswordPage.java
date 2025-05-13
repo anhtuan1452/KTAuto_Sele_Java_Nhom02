@@ -53,7 +53,7 @@ public class ChangePasswordPage extends GenetralPage {
             test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "ChangePasswordPage"));
         }
     }
-    public void checkMsgCorrect(ExtentTest test, HomePage homePage, String expectedMsg, String actualMsg) {
+    public void checkMsgCorrect( String expectedMsg, String actualMsg, ExtentTest test, HomePage homePage) {
         if(expectedMsg.equals(actualMsg)) {
             test.log(Status.PASS, "Message \"Your password has been updated\" appears.");
         } else {

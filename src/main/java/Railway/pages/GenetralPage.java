@@ -16,15 +16,14 @@ public class GenetralPage {
     //Locator
     public final String menuItems = "//div[@id='menu']//span[contains(text(),'%s')]";
     public final By tabLogin = By.xpath("//div[@id='menu']//a[@href='/Account/Login.cshtml'");
-    public final By tabLogout = By.xpath("//div[@id='menu']//a[@href=/Account/Logout]");
+    public final By tabLogout = By.xpath(String.format(menuItems,"Log out"));
     public final By lblWelcomeMessage = By.xpath("//div[@class='account']/strong");
     public final By h1 = By.xpath("//*[@id=\"content\"]/h1");
 
-    public final By headerMyticket = By.xpath("//span[contains(text(),'My ticket')]");
-    public final By headerChangePassword = By.xpath("//span[contains(text(),'Change password')]");
-    public final By headerLogout = By.xpath("//span[contains(text(),'Log out')]");
+    public final By headerMyticket = By.xpath(String.format(menuItems,"My ticket"));
+    public final By headerChangePassword = By.xpath(String.format(menuItems,"Change password"));
 
-    public String un="tuan41@gmail.com";
+
     public String pw="tuan41tuan41";
     public WebDriver driver ;
     public WebDriverWait wait ;
@@ -135,6 +134,7 @@ public class GenetralPage {
         }
         return screenshotPath;
     }
+
 
     public void checkLogOutTabDisplayed(ExtentTest test, HomePage homePage) {
         if(getTabLogout().isDisplayed()){

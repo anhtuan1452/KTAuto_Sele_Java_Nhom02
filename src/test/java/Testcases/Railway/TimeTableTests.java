@@ -35,13 +35,9 @@ public class TimeTableTests {
         homePage.clickMenuItem("Register");
         registerPage = new RegisterPage(driver);
         generatedEmail = registerPage.generateGmail();
-        registerPage.registerAccount(generatedEmail, registerPage.pw,registerPage.pw,"11111111");
+        User user = new User(generatedEmail, Constant.PASSWORD,Constant.PASSWORD,"11111111");
+        registerPage.registerAccount(user);
         loginPage = new LoginPage(driver);
-        registerPage.clickMenuItem("Login");
-        User user = new User(generatedEmail, Constant.PASSWORD);
-        loginPage.login(user);
-        homePage.clickMenuItem("Timetable");
-        timeTablePage = new TimeTablePage(driver);
     }
 
     @Test(description = "User can open \"Book ticket\" page by clicking on \"Book ticket\" link in \"Train timetable\" page")

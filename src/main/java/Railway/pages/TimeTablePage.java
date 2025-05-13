@@ -24,7 +24,6 @@ public class TimeTablePage extends GenetralPage {
         int maxRetries = 10;
         for (int attempt = 1; attempt <= maxRetries; attempt++) {
             String xpath = String.format(LinkBockTicket, From, Arrive);
-            System.out.println("Generated XPath (attempt " + attempt + "): " + xpath);
             WebElement linkBookticket = getNotElement(By.xpath(xpath));
             if (linkBookticket != null) {
                 scrollElement(linkBookticket);
@@ -34,10 +33,9 @@ public class TimeTablePage extends GenetralPage {
                 getBtnBookTicket().click();
                 return;
             } else {
-                System.out.println("Element not found, attempt " + attempt);
                 if (attempt < maxRetries) {
-                    driver.navigate().refresh(); // load lại trang
-                    sleepSafe(1000); // chờ một chút cho trang load lại
+                    driver.navigate().refresh();
+                    sleepSafe(1000);
                 } else {
                     test.fail("Book ticket link not found after "+ maxRetries + " retry. From: " + From + " - Arrive: " + Arrive);
                     test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "BookTicketError"));

@@ -102,6 +102,7 @@ public class LoginTests {
             test.log(Status.INFO, "Login with invalid password");
             User user = new User(Constant.USERNAME, "12345678");
             loginPage.login(user);
+
             test.info("Click on \"Login\" button");
             String actualMsg = "There was a problem with your login and/or errors exist in your form.";
             String expectedMsg = loginPage.getErrorMessage();

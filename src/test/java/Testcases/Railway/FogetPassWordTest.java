@@ -1,6 +1,7 @@
 package Testcases.Railway;
 
 import Railway.Common.Constant.Constant;
+import Railway.dataObjects.User;
 import Railway.pages.*;
 import Railway.utils.DriverFactory;
 import Railway.utils.ExtentManager;
@@ -32,7 +33,8 @@ public class FogetPassWordTest {
         RegisterPage registerPage = new RegisterPage(driver);
         String email = homePage.generateGmail();
         email_created = email;
-        registerPage.registerAccount(email_created,homePage.pw,homePage.pw,"11111111");
+        User user = new User(email_created,Constant.PASSWORD, Constant.PASSWORD,"11111111");
+        registerPage.registerAccount(user);
     }
 
     @Test(description = "TC012 - Errors display when password reset token is blank")

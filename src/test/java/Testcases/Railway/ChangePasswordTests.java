@@ -34,7 +34,8 @@ public class ChangePasswordTests {
         registerPage = new RegisterPage(driver);
         homePage.clickMenuItem("Register");
         generatedEmail= registerPage.generateGmail();
-        registerPage.registerAccount(generatedEmail, Constant.PASSWORD,Constant.PASSWORD,"11111111");
+        User user = new User(generatedEmail, Constant.PASSWORD, Constant.PASSWORD,"11111111");
+        registerPage.registerAccount(user);
         registerPage.clickMenuItem("Login");
     }
 
@@ -53,6 +54,7 @@ public class ChangePasswordTests {
             loginPage = new LoginPage(driver);
             User user = new User(generatedEmail, Constant.PASSWORD);
             loginPage.login(user);
+
             test.log(Status.INFO, "Click on \"Change Password\" tab");
             homePage.clickMenuItem("Change password");
             ChangePasswordPage changePasswordPage = new ChangePasswordPage(driver);
@@ -63,7 +65,7 @@ public class ChangePasswordTests {
             test.log(Status.INFO, "Click on \"Change Password\" button");
             String expectedWarning = "Your password has been updated";
             String successMessage = changePasswordPage.getSuccessMessage();
-            changePasswordPage.checkMsgCorrect(test,homePage,expectedWarning,successMessage);
+            changePasswordPage.checkMsgCorrect(expectedWarning,successMessage, test,homePage);
             Assert.assertEquals(successMessage, expectedWarning,"Success message is not displayed as expected.");
         } catch (Exception e) {
             System.out.println("Exception caught: " + e.getMessage());
