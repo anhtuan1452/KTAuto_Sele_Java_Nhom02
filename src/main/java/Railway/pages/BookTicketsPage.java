@@ -6,6 +6,7 @@ import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 import java.time.Duration;
 
@@ -94,7 +95,7 @@ public class BookTicketsPage extends GenetralPage {
         String text = InforElement.getText().trim();
         return text.equals(check);
     }
-    public boolean checkTicketInformation(Ticket ticket, HomePage homePage, ExtentTest test) {
+    public void checkTicketInformation(Ticket ticket, HomePage homePage, ExtentTest test) {
         boolean checkArrive = isTicketInfoCorrect("Arrive Station", ticket.getArriveStation());
         boolean checkDeparture = isTicketInfoCorrect("Depart Station", ticket.getDepartStation());
         boolean checkDate = isTicketInfoCorrect("Depart Date", ticket.getDate());
@@ -102,16 +103,15 @@ public class BookTicketsPage extends GenetralPage {
         boolean checkTicketAmount = isTicketInfoCorrect("Amount", ticket.getTicketAmount());
         if(checkArrive && checkDeparture && checkDate && checkSeatType && checkTicketAmount){
             test.log(Status.PASS, "Ticket information is correct");
-            return true;
         } else {
             test.fail("Ticket information is not correct");
+            Assert.fail("Ticket information is not correct");
             test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "BookTicketError"));
-            return false;
         }
 
     }
     public void bookTicket(Ticket ticket,HomePage homePage, ExtentTest test) {
-        int maxRetries = 5;
+        int maxRetries = 10;
         boolean isBooked = false;
 
         for (int attempt = 1; attempt <= maxRetries && !isBooked; attempt++) {
@@ -125,10 +125,10 @@ public class BookTicketsPage extends GenetralPage {
                 pickTicketAmount(ticket.getTicketAmount());
                 sleepSafe(600);
                 pickDate(ticket.getDate());
-                System.out.println("Date Dropdown is displayed: " + DateDropdown().isDisplayed());
                 BookTicketButton().click();
                 if (isSuccessfulTicketPurchaseNotification()) {
                     isBooked = true;
+                    test.info("Book ticket successfully attempt: " + attempt);
                     test.pass("Book ticket successfully: " + ticket.getDate() + " - Depart: " + ticket.getDepartStation() + " - Arrive: " + ticket.getArriveStation());
                     test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "BookTicketSuccess"));
                     break;
@@ -136,12 +136,12 @@ public class BookTicketsPage extends GenetralPage {
                     throw new Exception("Booking confirmation not found.");
                 }
             } catch (Exception e) {
-                System.out.println("Attempt " + attempt + " failed: " + e.getMessage());
                 if (attempt < maxRetries) {
                     driver.navigate().refresh();
                     sleepSafe(2000);
                 } else {
                     test.fail("Failed to book ticket after " + maxRetries + " retries: " + ticket.getDate() + " - Depart: " + ticket.getDepartStation() + " - Arrive: " + ticket.getArriveStation());
+                    Assert.fail("Failed to book ticket after " + maxRetries + " retries: " + ticket.getDate() + " - Depart: " + ticket.getDepartStation() + " - Arrive: " + ticket.getArriveStation());
                     test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "BookTicketError"));
                 }
             }

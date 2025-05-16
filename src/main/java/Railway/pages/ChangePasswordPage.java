@@ -3,9 +3,9 @@ package Railway.pages;
 import Railway.Common.Constant.Constant;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
-import dev.failsafe.internal.util.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.Assert;
 
 public class ChangePasswordPage extends GenetralPage {
     // Locators
@@ -50,6 +50,7 @@ public class ChangePasswordPage extends GenetralPage {
             test.log(Status.PASS, "Change Password page is displayed");
         } else {
             test.fail("Change Password page is not displayed");
+            Assert.fail("Change Password page is not displayed");
             test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "ChangePasswordPage"));
         }
     }
@@ -57,8 +58,9 @@ public class ChangePasswordPage extends GenetralPage {
         if(expectedMsg.equals(actualMsg)) {
             test.log(Status.PASS, "Message \"Your password has been updated\" appears.");
         } else {
-            test.fail("Message \"Your password has been updated\" not appears.");
-            test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "ChangePasswordPage"));
+            test.fail("Message \"Your password has been updated\" not equal (expectedMsg :" + expectedMsg + "- actualMsg:" + actualMsg +")");
+            test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "TC09"));
+            Assert.fail("Message \"Your password has been updated\" not equal (expectedMsg :" + expectedMsg + "- actualMsg:" + actualMsg +")");
         }
     }
     public void changePassword(String currentPw, String newPw, String confirmPw) {

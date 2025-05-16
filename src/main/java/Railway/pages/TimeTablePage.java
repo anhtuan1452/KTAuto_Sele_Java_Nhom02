@@ -56,6 +56,7 @@ public class TimeTablePage extends GenetralPage {
         int index = getColumnIndex(fieldName);
         String xpath = String.format(LinkTableCheck, index,stringCheck);
         System.out.println("Generated XPath: " + xpath);
+        sleepSafe(300);
         WebElement b = getElement(By.xpath(xpath));
         return b != null;
     }

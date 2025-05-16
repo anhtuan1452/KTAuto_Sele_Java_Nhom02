@@ -14,7 +14,7 @@ public class Ticket {
         this.TicketAmount = TicketAmount;
     }
     public Ticket(String Date) {
-        this.DepartStation = "Quãng Ngãi";
+        this.DepartStation = "Nha Trang";
         this.ArriveStation = "Sài Gòn";
         this.Date = Date;
         this.SeatType = "Soft bed";

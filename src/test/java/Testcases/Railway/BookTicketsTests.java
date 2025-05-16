@@ -55,6 +55,7 @@ public class BookTicketsTests {
         try {
             test.log(Status.INFO, "Navigate to QA Railway Website");
             homePage.open();
+
             test.log(Status.INFO, "Click on \"Book ticket\" tab");
             homePage.clickMenuItem("Book ticket");
             loginPage.checkLoginPageDisplayed(test, homePage);
@@ -88,12 +89,11 @@ public class BookTicketsTests {
 
             test.log(Status.INFO, "Book ticket");
             bookTicketsPage.bookTicket(ticket, homePage, test);
-            boolean ans= false;
+
             test.log(Status.INFO, "Check ticket information");
-            ans = bookTicketsPage.checkTicketInformation(ticket, homePage, test);
+            bookTicketsPage.checkTicketInformation(ticket, homePage, test);
 
             homePage.clickMenuItem("Log out");
-            Assert.assertTrue(ans, "Ticket information not True");
         } catch (Exception e) {
             test.log(Status.FAIL, "Test fail: " + e.getMessage());
             test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "TC14"));
@@ -130,7 +130,7 @@ public class BookTicketsTests {
 
             test.log(Status.INFO, "Click on \"Cancel\" button of ticket which user want to cancel");
             boolean ans = myTicketPage.cancelTicket(id,test,homePage) && myTicketPage.confirmCancel(id,test,homePage);
-            Assert.assertTrue(ans, "Cancel ticket failed");
+            Assert.assertTrue(ans, "Cancel ticket successfully");
         } catch (Exception e) {
             test.log(Status.FAIL, "Cancel ticket fail: " + e.getMessage());
             test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "TC16"));

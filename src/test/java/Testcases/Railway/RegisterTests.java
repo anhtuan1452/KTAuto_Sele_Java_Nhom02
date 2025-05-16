@@ -57,8 +57,8 @@ public class RegisterTests {
             registerPage.registerAccount(user);
 
             test.info("Click on \"Register\" button");
-            String actualMsg = "Thank you for registering your account";
-            String expectedMsg= registerPage.getMsgSuccessCreate();
+            String  expectedMsg= "Thank you for registering your account";
+            String actualMsg= registerPage.getMsgSuccessCreate();
             registerPage.checkMsgCorrect(test,homePage,actualMsg,expectedMsg);
             Assert.assertEquals(actualMsg, expectedMsg);
         }

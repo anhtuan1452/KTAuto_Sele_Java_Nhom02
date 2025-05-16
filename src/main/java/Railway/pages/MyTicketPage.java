@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.Assert;
 
 public class MyTicketPage extends GenetralPage {
     // Locators
@@ -23,6 +24,7 @@ public class MyTicketPage extends GenetralPage {
             test.log(Status.PASS, "My Ticket page is displayed");
         } else {
             test.fail("My Ticket page is not displayed");
+            Assert.fail("My Ticket page is not displayed");
             test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "MyTicketPage"));
         }
     }
@@ -36,6 +38,7 @@ public class MyTicketPage extends GenetralPage {
                 return true;
             } else {
                 test.fail("Cancel button is not displayed");
+                Assert.fail("Cancel button is not displayed");
                 test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "MyTicketPage"));
                 return false;
             }
@@ -52,6 +55,7 @@ public class MyTicketPage extends GenetralPage {
             return true;
         } else {
             test.fail("The canceled ticket is not disappeared.");
+            Assert.fail("The canceled ticket is not disappeared.");
             test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "MyTicketPage"));
             return false;
         }

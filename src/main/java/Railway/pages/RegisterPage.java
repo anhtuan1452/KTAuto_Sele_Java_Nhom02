@@ -6,6 +6,7 @@ import com.aventstack.extentreports.Status;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 import java.time.Duration;
 
@@ -82,21 +83,29 @@ public class RegisterPage extends GenetralPage {
 
     public void clickBtnRegister(){
         scrollElement(BtnResgiter());
+        sleepSafe(300);
         BtnResgiter().click();
     }
     // Kiểm tra thông báo lỗi trên form
     public void checkFormErrorMessageDisplayed(String expectedMessage, HomePage homePage, ExtentTest test) {
         WebElement formMessage = getElement(formErrorMessage);
+        WebElement registerForm = getElement(By.id("RegisterForm"));
+
         String errorMessage = formMessage.getText().trim();
-        System.out.println("Form Error message text: " + errorMessage);
-        if (errorMessage.contains(expectedMessage)) {
+        int msgY = formMessage.getRect().getY();
+        int formY = registerForm.getRect().getY();
+        boolean isAboveForm = msgY < formY;
+        boolean textMatches = errorMessage.contains(expectedMessage);
+
+        if (textMatches && isAboveForm) {
             test.log(Status.PASS, "Message \"" + expectedMessage + "\" appears above the form.");
         } else {
-            test.fail("Message \"" + expectedMessage + "\" does not appear above the form.");
+            test.fail("Form error check failed position or text not match " );
+            Assert.fail("Form error check failed position or text not match");
             test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "TC11"));
         }
-
     }
+
 
     // Kiểm tra thông báo lỗi PID
     public void checkMessageBlankPidDisplayed(String expectedMessage, HomePage homePage, ExtentTest test) {
@@ -109,6 +118,7 @@ public class RegisterPage extends GenetralPage {
             test.log(Status.PASS, "Error message \"Invalid PID length\" appears next to PID field.");
         } else{
             test.fail("Error message \"Invalid PID length\" does not appear next to PID field.");
+            Assert.fail("Error message \"Invalid PID length\" does not appear next to PID field.");
             test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "TC11"));
         }
     }
@@ -124,6 +134,7 @@ public class RegisterPage extends GenetralPage {
                 test.log(Status.PASS, "Error message \"Invalid password length\" appears next to password field.");
             } else {
                 test.fail("Error message \"Invalid password length\" does not appear next to password field.");
+                Assert.fail("Error message \"Invalid password length\" does not appear next to password field.");
                 test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "TC11"));
             }
     }

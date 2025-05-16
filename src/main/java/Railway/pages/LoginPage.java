@@ -6,6 +6,7 @@ import com.aventstack.extentreports.Status;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 import java.time.Duration;
 
@@ -60,11 +61,12 @@ public class LoginPage extends GenetralPage {
             test.log(Status.PASS, "Error message \"There was a problem with your login and/or errors exist in your form.\" is displayed");
         } else {
             test.fail("Error message \"There was a problem with your login and/or errors not exist in your form.\" is displayed");
-            test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "LoginPage"));
+            test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "TC03"));
+            Assert.fail("Error message \"There was a problem with your login and/or errors not exist in your form.\" is displayed");
         }
     }
 
-    public void checkMsgLoginFailed2(ExtentTest test, HomePage homePage, String expectedMsg, String actualMsg) {
+    public void checkMsgLoginFailedInvalid(ExtentTest test, HomePage homePage, String expectedMsg, String actualMsg) {
         if (expectedMsg.equals(actualMsg)) {
             test.log(Status.PASS, "Error message \"Invalid username or password. Please try again\" is displayed");
         } else {
@@ -78,7 +80,8 @@ public class LoginPage extends GenetralPage {
             test.log(Status.PASS, "Message \"You have used 4 out of 5 login attempts. After all 5 have been used, you will be unable to login for 15 minutes.\" appears.");
         } else {
             test.fail("Message \"You have used 4 out of 5 login attempts. After all 5 have been used, you will be unable to login for 15 minutes.\" not appears.");
-            test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "LoginPage"));
+            test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "TC05"));
+            Assert.fail("Message \"You have used 4 out of 5 login attempts. After all 5 have been used, you will be unable to login for 15 minutes.\" not appears.");
         }
     }
 

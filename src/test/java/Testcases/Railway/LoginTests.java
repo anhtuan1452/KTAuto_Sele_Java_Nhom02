@@ -20,7 +20,6 @@ public class LoginTests {
     private ExtentTest test;
     @BeforeClass
     public void setUpClass() {
-        // Khởi tạo Extent Reports
         extent = ExtentManager.getInstance();
     }
     @BeforeMethod
@@ -50,10 +49,9 @@ public class LoginTests {
             String actualMsg = loginPage.getWelcomeMessage();
             String expectedMsg = "Welcome " + Constant.USERNAME;
             homePage.checkMsgWelcome(test, homePage, actualMsg, expectedMsg);
-            Assert.assertEquals(actualMsg, expectedMsg);
+            Assert.assertEquals(actualMsg, expectedMsg, "Welcome message is not displayed as expected.");
 
         } catch (Exception e) {
-            System.out.println("Exception caught: " + e.getMessage());
             test.fail("Test failed: Welcome message is not displayed. Error: " + e.getMessage());
             test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, "TC01"));
             throw new RuntimeException(e);
@@ -138,8 +136,7 @@ public class LoginTests {
             String actualMsg = "You have used 5 out of 5 login attempts. After all 5 have been used, you will be unable to login for 15 minutes.";
             String expectedMsg = loginPage.getErrorMessage();
             loginPage.checkMsgWrongPass(test, homePage, actualMsg, expectedMsg);
-
-            Assert.assertEquals(actualMsg, expectedMsg);
+            Assert.assertEquals(actualMsg, expectedMsg, "Error message is not displayed as expected.");
         }
         catch (Exception e) {
             System.out.println("Exception caught: " + e.getMessage());
@@ -167,7 +164,7 @@ public class LoginTests {
             test.info("Click on \"Login\" button");
             String actualMsg = "Invalid username or password. Please try again.";
             String expectedMsg = loginPage.getErrorMessage();
-            loginPage.checkMsgLoginFailed2(test, homePage, actualMsg, expectedMsg);
+            loginPage.checkMsgLoginFailedInvalid(test, homePage, actualMsg, expectedMsg);
             Assert.assertEquals(actualMsg, expectedMsg);
         }
         catch (Exception e){

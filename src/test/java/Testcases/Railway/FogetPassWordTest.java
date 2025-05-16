@@ -61,12 +61,8 @@ public class FogetPassWordTest {
         }
         catch (Throwable e) {
             test.fail("Test failed: " + e.getMessage());
-            try {
-                String screenshotName = "TC12" + System.currentTimeMillis();
-                test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, screenshotName));
-            } catch (Exception screenshotEx) {
-                test.log(Status.WARNING, "Failed to capture screenshot: " + screenshotEx.getMessage());
-            }
+            String screenshotName = "TC12" + System.currentTimeMillis();
+            test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, screenshotName));
             throw new RuntimeException(e);
         }
     }
@@ -95,12 +91,8 @@ public class FogetPassWordTest {
         }
         catch (Throwable e) {
             test.fail("Test failed: " + e.getMessage());
-            try {
-                String screenshotName = "TC13" + System.currentTimeMillis();
-                test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, screenshotName));
-            } catch (Exception screenshotEx) {
-                test.log(Status.WARNING, "Failed to capture screenshot: " + screenshotEx.getMessage());
-            }
+            String screenshotName = "TC13" + System.currentTimeMillis();
+            test.addScreenCaptureFromPath(homePage.takeScreenshot(driver, screenshotName));
             throw new RuntimeException(e);
         }
 
